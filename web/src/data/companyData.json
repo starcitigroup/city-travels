@@ -7,21 +7,20 @@
   },
   "contact": {
     "phones": [
-      "+91 98765 43210",
-      "+91 98765 43211"
+      "+91 62386 03200"
     ],
-    "whatsapp": "+919876543210",
-    "email": "bookings@citytravels.com",
-    "supportEmail": "info@citytravels.com",
+    "whatsapp": "+91 81369 10938",
+    "email": "ratnaraaj@yahoo.com",
+    "supportEmail": "ratnaraaj@yahoo.com",
     "address": {
-      "line1": "123, Travel Lane",
-      "line2": "Near Main Market",
-      "city": "New Delhi",
-      "state": "Delhi",
-      "zip": "110001",
+      "line1": "TC 71/3082",
+      "line2": "Next To Vertex, Near Killipalam Junction",
+      "city": "Trivandrum",
+      "state": "Kerala",
+      "zip": "695002",
       "country": "India"
     },
-    "fullAddress": "City Travels HQ, 123, Travel Lane, Near Main Market, New Delhi, India 110001"
+    "fullAddress": "TC 71/3082, Next To Vertex, Near Killipalam Junction, Killipalam-Attakulangara Bypass Road, Trivandrum, Kerala 695002, India"
   },
   "social": {
     "facebook": "https://facebook.com/citytravels",
