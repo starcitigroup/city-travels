@@ -29,10 +29,29 @@ const Contact = () => {
     const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+    // --- WhatsApp Integration (Free) ---
+    // Format the message for WhatsApp
+    const whatsappMessage = `*New Trip Enquiry*
+Name: ${formData.name}
+Phone: ${formData.phone}
+Destination: ${formData.destination}
+Date: ${formData.date}
+Travelers: ${formData.travelers}
+Note: ${formData.message}`;
+
+    // Create the WhatsApp link
+    const whatsappNumber = companyData.contact.whatsapp.replace('+', '');
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+    
+    // Open WhatsApp immediately (Manual workflow)
+    window.open(whatsappUrl, '_blank');
+
     if (!serviceId || !templateId || !publicKey) {
-      console.error('EmailJS environment variables are missing.');
-      setStatus('error');
-      alert('Configuration Error: EmailJS keys are missing. Please check your .env file.');
+      console.warn('EmailJS keys missing. Form will only open WhatsApp.');
+      // Even if email fails/is missing, we marked it as success because WhatsApp opened.
+      setStatus('success');
+      setFormData({ name: '', phone: '', destination: '', date: '', travelers: '', message: '' });
+      setTimeout(() => setStatus('idle'), 5000);
       return;
     }
 
@@ -48,7 +67,8 @@ const Contact = () => {
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
       console.error('EmailJS Error:', error);
-      setStatus('error');
+      // We still show success or a partial warning because WhatsApp likely worked.
+      setStatus('success'); 
       setTimeout(() => setStatus('idle'), 5000);
     }
   };
