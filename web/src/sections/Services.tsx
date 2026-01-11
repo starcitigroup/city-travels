@@ -1,5 +1,6 @@
 import { MapPin, Users, Heart, Briefcase } from 'lucide-react';
 import { Link } from 'react-scroll';
+import companyData from '../data/companyData.json';
 
 const packages = [
   {
@@ -64,7 +65,7 @@ const Services = () => {
                   to="contact"
                   smooth={true}
                   duration={500}
-                  offset={-70}
+                  offset={-80}
                   className="w-full block text-center bg-primary text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors cursor-pointer shadow-md"
                 >
                   Request Quote
@@ -77,7 +78,7 @@ const Services = () => {
         <div className="mt-16 text-center">
           <p className="text-gray-500 mb-4 font-semibold uppercase tracking-wider text-sm">Popular Destinations</p>
           <div className="flex flex-wrap justify-center gap-3">
-            {['Kashmir', 'Kerala', 'Himachal', 'Goa', 'Rajasthan', 'Uttarakhand'].map((city) => (
+            {companyData.destinations.map((city) => (
               <span key={city} className="bg-white border border-gray-200 px-4 py-2 rounded-full text-gray-700 flex items-center gap-2 shadow-sm font-medium">
                 <MapPin size={16} className="text-secondary" />
                 {city}

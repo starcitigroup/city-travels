@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import companyData from '../data/companyData.json';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -22,12 +24,36 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
-    setTimeout(() => {
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('EmailJS environment variables are missing.');
+      setStatus('error');
+      alert('Configuration Error: EmailJS keys are missing. Please check your .env file.');
+      return;
+    }
+
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        formData,
+        publicKey
+      );
       setStatus('success');
       setFormData({ name: '', phone: '', destination: '', date: '', travelers: '', message: '' });
-      setTimeout(() => setStatus('idle'), 3000);
-    }, 1500);
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
+
+  const { phones, email, fullAddress } = companyData.contact;
 
   return (
     <section id="contact" className="relative py-20 overflow-hidden">
@@ -58,8 +84,11 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="font-semibold text-dark mb-1">Phone / WhatsApp</p>
-                  <a href="tel:+919876543210" className="block text-gray-800 font-bold hover:text-primary transition-colors text-lg">+91 98765 43210</a>
-                  <a href="tel:+919876543211" className="block text-gray-800 font-bold hover:text-primary transition-colors text-lg">+91 98765 43211</a>
+                  {phones.map((phone, index) => (
+                    <a key={index} href={`tel:${phone.replace(/\s+/g, '')}`} className="block text-gray-800 font-bold hover:text-primary transition-colors text-lg">
+                      {phone}
+                    </a>
+                  ))}
                 </div>
               </div>
 
@@ -69,7 +98,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="font-semibold text-dark mb-1">Email Us</p>
-                  <a href="mailto:bookings@citytravels.com" className="block text-gray-800 font-bold hover:text-primary transition-colors text-lg">bookings@citytravels.com</a>
+                  <a href={`mailto:${email}`} className="block text-gray-800 font-bold hover:text-primary transition-colors text-lg">{email}</a>
                 </div>
               </div>
 
@@ -80,9 +109,7 @@ const Contact = () => {
                 <div>
                   <p className="font-semibold text-dark mb-1">Office Location</p>
                   <p className="text-gray-800 leading-relaxed font-medium">
-                    City Travels HQ<br />
-                    123, Travel Lane, Near Main Market<br />
-                    New Delhi, India 110001
+                    {fullAddress}
                   </p>
                 </div>
               </div>
@@ -199,6 +226,8 @@ const Contact = () => {
                   'Sending...'
                 ) : status === 'success' ? (
                   'Request Sent Successfully!'
+                ) : status === 'error' ? (
+                  'Failed. Try Again.'
                 ) : (
                   <>
                     Send Enquiry <Send size={20} />

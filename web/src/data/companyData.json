@@ -1,0 +1,39 @@
+{
+  "company": {
+    "name": "City Travels",
+    "tagline": "Custom Domestic Tours",
+    "description": "Customized travel packages designed for families, couples, and groups. Let us craft your perfect getaway with 24/7 support and unbeatable prices.",
+    "foundedYear": 2015
+  },
+  "contact": {
+    "phones": [
+      "+91 98765 43210",
+      "+91 98765 43211"
+    ],
+    "whatsapp": "+919876543210",
+    "email": "bookings@citytravels.com",
+    "supportEmail": "info@citytravels.com",
+    "address": {
+      "line1": "123, Travel Lane",
+      "line2": "Near Main Market",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "zip": "110001",
+      "country": "India"
+    },
+    "fullAddress": "City Travels HQ, 123, Travel Lane, Near Main Market, New Delhi, India 110001"
+  },
+  "social": {
+    "facebook": "https://facebook.com/citytravels",
+    "instagram": "https://instagram.com/citytravels",
+    "twitter": "https://twitter.com/citytravels"
+  },
+  "destinations": [
+    "Kashmir",
+    "Kerala",
+    "Himachal",
+    "Goa",
+    "Rajasthan",
+    "Uttarakhand"
+  ]
+}

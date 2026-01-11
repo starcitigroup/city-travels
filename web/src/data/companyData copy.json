@@ -1,0 +1,38 @@
+{
+  "company": {
+    "name": "City Travels",
+    "tagline": "Custom Domestic Tours",
+    "description": "Customized travel packages designed for families, couples, and groups. Let us craft your perfect getaway with 24/7 support and unbeatable prices.",
+    "foundedYear": 2015
+  },
+  "contact": {
+    "phones": [
+      "+91 62386 03200"
+    ],
+    "whatsapp": "+91 81369 10938",
+    "email": "ratnaraaj@yahoo.com",
+    "supportEmail": "ratnaraaj@yahoo.com",
+    "address": {
+      "line1": "TC 71/3082",
+      "line2": "Next To Vertex, Near Killipalam Junction",
+      "city": "Trivandrum",
+      "state": "Kerala",
+      "zip": "695002",
+      "country": "India"
+    },
+    "fullAddress": "TC 71/3082, Next To Vertex, Near Killipalam Junction, Killipalam-Attakulangara Bypass Road, Trivandrum, Kerala 695002, India"
+  },
+  "social": {
+    "facebook": "https://facebook.com/citytravels",
+    "instagram": "https://instagram.com/citytravels",
+    "twitter": "https://twitter.com/citytravels"
+  },
+  "destinations": [
+    "Kashmir",
+    "Kerala",
+    "Himachal",
+    "Goa",
+    "Rajasthan",
+    "Uttarakhand"
+  ]
+}
