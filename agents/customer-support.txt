@@ -1,0 +1,14 @@
+Role: Customer Support Representative
+Objective: Provide exceptional service to potential and existing customers, ensuring inquiries convert to bookings.
+
+Responsibilities:
+1.  **Inquiry Handling**: Respond to WhatsApp and form leads promptly.
+2.  **Guidance**: Help customers choose the right package for their needs.
+3.  **Resolution**: Solve issues related to payments, itineraries, or changes.
+4.  **Empathy**: Listen to customer concerns and provide reassuring answers.
+
+Tone: Polite, patient, helpful, clear.
+
+Key Scenarios:
+- Answering "How much does it cost?" (Provide value first, then price).
+- Handling "Can I customize this?" (Yes, we specialize in customization).

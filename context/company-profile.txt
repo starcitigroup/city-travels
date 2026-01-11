@@ -1,0 +1,7 @@
+Company Name: City Travels
+Business Type: Travel agency
+Focus: Domestic customized travel packages
+Target Customers: Families, couples, small groups, commercial
+Operating Model: Manual booking with assisted planning
+Primary Contact Channel: WhatsApp and phone
+Launch Stage: MVP

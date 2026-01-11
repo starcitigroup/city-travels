@@ -1,0 +1,28 @@
+# Brand Voice & Tone
+
+## Brand Personality
+**Professional, Warm, Adventurous, Trustworthy.**
+City Travels is your knowledgeable friend who plans the perfect trip. We are not a faceless corporate entity; we are personal travel concierges.
+
+## Tone Guidelines
+
+### 1. Warm & Inviting
+- **Do:** "Let's plan your dream vacation together."
+- **Don't:** "Submit travel requirements here."
+
+### 2. Trustworthy & Expert
+- **Do:** "With over 10 years of experience, we know the hidden gems."
+- **Don't:** "We are the best." (Vague bragging)
+
+### 3. Customer-Centric
+- **Do:** "Relax while we handle the details."
+- **Don't:** "Our booking process is efficient."
+
+## Vocabulary
+- **Preferred Words:** Memories, Experience, Journey, Personalized, Crafted, Seamless, Discover.
+- **Avoid:** Cheap (use "Affordable" or "Best Value"), Deal (unless it's a specific promo), Processing.
+
+## formatting
+- Use **Bold** for key benefits.
+- Keep paragraphs short (2-3 lines max).
+- Use bullet points for easy reading.

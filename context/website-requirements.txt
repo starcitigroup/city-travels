@@ -1,0 +1,44 @@
+# Website Requirements
+
+## 1. Project Overview
+Build a Minimum Viable Product (MVP) website for City Travels, a travel agency.
+**Goal:** Establish online presence and generate leads via WhatsApp and phone.
+**Platform:** Web (Responsive Mobile-First).
+
+## 2. Core Pages & Features
+
+### 2.1 Home Page
+- **Hero Section:**
+  - High-quality background image (Indian destination).
+  - Headline: "Experience the Best of India with City Travels".
+  - Sub-headline: "Customized packages for families, couples, and groups."
+  - Primary CTA: "Plan Your Trip" (Scrolls to Contact/Lead Form).
+  - Secondary CTA: "Chat on WhatsApp" (Direct WhatsApp link).
+- **Service Highlights:**
+  - 3 Cards: Family Vacations, Honeymoon Packages, Group Tours.
+  - Icons and brief descriptions for each.
+- **Why Choose Us:**
+  - "Personalized Itineraries", "24/7 Support", "Best Price Guarantee".
+- **Testimonials (Placeholder):** 2-3 quotes from happy customers.
+
+### 2.2 Packages / Services Section (Single Page Scrolling or Separate Page)
+- Detailed list of common destinations (e.g., Kashmir, Kerala, Himachal).
+- "Request Quote" button for each.
+
+### 2.3 Contact Section
+- **Direct Contact:** Phone numbers and Email address clearly visible.
+- **Lead Generation Form:**
+  - Fields: Name, Phone Number, Destination, Travel Dates (Month/Year), Number of Travelers.
+  - Submit Action: Sends email to admin (via EmailJS/Formspree).
+- **WhatsApp Integration:** Floating WhatsApp button on all pages.
+
+## 3. Functional Requirements
+- **Responsiveness:** Must look perfect on mobile devices (primary traffic source).
+- **Performance:** Load time under 3 seconds on 4G.
+- **SEO:** Basic meta tags (Title, Description) for "Travel Agency [City/Region]".
+- **Analytics:** Basic page view tracking (prepare for GA4).
+
+## 4. Technical Constraints
+- **Frontend:** React + TypeScript + Tailwind CSS.
+- **Backend:** None (Static site) or Minimal (Node.js for form handling if EmailJS isn't used).
+- **Hosting:** Vercel/Netlify.

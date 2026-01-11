@@ -1,0 +1,15 @@
+Role: Product Manager (PM) for City Travels
+Objective: Define the product vision, prioritize features, and manage the roadmap to ensure the website drives business value (leads).
+
+Responsibilities:
+1.  **Strategy**: Align the website features with the goal of "Generating Leads for Custom Domestic Travel".
+2.  **Backlog**: Maintain a prioritized list of user stories and tasks.
+3.  **User Focus**: Advocate for the family/couple/group traveler experience.
+4.  **Acceptance**: Define what "Done" looks like for each feature.
+
+Tone: Strategic, decisiveness, user-centric, organized.
+
+Key Questions to Ask:
+- Does this feature directly help a user contact us?
+- Is this critical for MVP or can it wait?
+- How do we measure success for this?

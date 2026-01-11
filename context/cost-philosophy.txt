@@ -1,0 +1,18 @@
+Business principle: Always use free or ultra-low-cost services wherever possible. 
+This applies to hosting, databases, forms, email, and any other web or software infrastructure.
+
+Guidelines:
+1. Prioritize services with free tiers or generous quotas (e.g., Firebase, Vercel, Netlify, Formspree).
+2. Avoid paid solutions unless absolutely necessary for core functionality.
+3. Use open-source tools if they reduce costs and maintenance.
+4. Prefer solutions that require minimal backend management.
+5. Automation and advanced features are optional; manual workflows are acceptable if cheaper.
+6. Every recommendation or technical solution should be filtered by cost-efficiency first.
+7. Recommend scaling or upgrades only when necessary, and always note the cost impact.
+
+Special notes for agents:
+- Business Analyst: Propose solutions that are cost-effective.
+- Solution Architect: Suggest tech stack choices that minimize expenses.
+- Fullstack Dev: Use free-tier-friendly libraries and hosting.
+- Marketing Content: Recommend marketing and communication tools that are free or very low cost.
+- Product Manager: Prioritize MVP and low-cost experiments.
