@@ -25,23 +25,31 @@ const features = [
 
 const WhyUs = () => {
   return (
-    <section id="why-us" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="why-us" className="relative py-20 text-white overflow-hidden">
+       {/* CSS Gradient Background */}
+       <div 
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'linear-gradient(to right, #006994, #004d6e)', // Ocean Blue Gradient
+        }}
+      ></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Why Choose City Travels?</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Why Choose City Travels?</h2>
+          <p className="text-blue-50 max-w-2xl mx-auto text-lg opacity-90">
             We don't just book tickets; we design experiences. Here is why thousands of travelers trust us.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
-            <div key={index} className="p-6 bg-light rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 text-center group">
-              <div className="mb-6 inline-block p-4 bg-white rounded-full shadow-sm group-hover:scale-110 transition-transform">
+            <div key={index} className="p-8 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 text-center group hover:bg-white/20 transition-all duration-300 shadow-lg">
+              <div className="mb-6 inline-block p-4 bg-white rounded-full shadow-lg group-hover:scale-110 transition-transform">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold text-dark mb-3">{feature.title}</h3>
-              <p className="text-gray-700">{feature.description}</p>
+              <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
+              <p className="text-blue-50 leading-relaxed">{feature.description}</p>
             </div>
           ))}
         </div>

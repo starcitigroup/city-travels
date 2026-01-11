@@ -3,23 +3,23 @@ import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <section id="home" className="relative h-screen min-h-[600px] flex items-center justify-center bg-primary">
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1477587458883-47145ed94245?q=80&w=2000&auto=format&fit=crop")',
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50"></div>
-      </div>
+    <section id="home" className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-[#002d41]">
+      {/* Generated SVG Background */}
+      <img 
+        src="/hero-bg.svg"
+        alt="Background Pattern"
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      />
+      
+      {/* Dark Overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/30 z-10"></div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto mt-20">
-        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-tight font-sans">
+      <div className="relative z-20 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-tight font-sans drop-shadow-xl">
           Experience the Best of India with <span className="text-secondary">City Travels</span>
         </h1>
-        <p className="text-lg sm:text-xl text-gray-200 mb-10 max-w-3xl mx-auto font-body">
+        <p className="text-lg sm:text-xl text-gray-100 mb-10 max-w-3xl mx-auto font-body drop-shadow-lg">
           Customized travel packages designed for families, couples, and groups. 
           Let us craft your perfect getaway with 24/7 support and unbeatable prices.
         </p>
