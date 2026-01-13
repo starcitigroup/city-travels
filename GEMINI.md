@@ -14,11 +14,13 @@ The project context is distributed across specific files for clarity:
 - **[Tech Stack](context/tech-stack.md)**: Architecture, libraries, and tools.
 - **[Company Profile](context/company-profile.txt)**: Business details and target audience.
 - **[Rules & Standards](context/rules.md)**: Coding conventions and workflow rules.
+- **[Branching Strategy](context/branching-strategy.md)**: Git workflow and branch naming conventions.
 
 ### Role Definitions (Agents)
 - **[Full-Stack Dev](agents/fullstack-dev.txt)** / **[Software Engineer](agents/software-engineer.txt)**
 - **[Product Manager](agents/product-manager.txt)** / **[Business Analyst](agents/business-analyst.txt)**
-- **[UI/UX Designer](agents/marketing-content.txt)**
+- **[UI/UX Designer](agents/ui-ux-designer.txt)**
+- **[Marketing Specialist](agents/marketing-content.txt)**
 - **[QA Engineer](agents/qa-engineer.txt)**
 - **[DevOps](agents/devops.txt)**
 
