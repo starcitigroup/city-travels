@@ -7,12 +7,7 @@ import service3 from '../assets/service-3.jpg';
 import worldMap from '../assets/world-map.png';
 
 const packages = [
-  {
-    title: 'Day Trips',
-    description: 'Quick and refreshing getaways to scenic spots perfect for a single-day adventure.',
-    icon: <Compass size={40} className="text-secondary" />,
-    image: service1,
-  },
+
   {
     title: 'City Tours',
     description: 'Explore the local heritage, culture, and landmarks with our guided city experiences.',
@@ -24,6 +19,12 @@ const packages = [
     description: 'Professional arrangements for team building, offsites, and business travel.',
     icon: <Briefcase size={40} className="text-secondary" />,
     image: service3,
+  },
+    {
+    title: 'Day Trips',
+    description: 'Quick and refreshing getaways to scenic spots perfect for a single-day adventure.',
+    icon: <Compass size={40} className="text-secondary" />,
+    image: service1,
   },
 ];
 
