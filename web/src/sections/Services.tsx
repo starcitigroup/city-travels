@@ -1,25 +1,29 @@
-import { MapPin, Users, Heart, Briefcase } from 'lucide-react';
+import { MapPin, Briefcase, Compass } from 'lucide-react';
 import { Link } from 'react-scroll';
 import companyData from '../data/companyData.json';
+import service1 from '../assets/service-1.jpg';
+import service2 from '../assets/service-2.jpg';
+import service3 from '../assets/service-3.jpg';
+import worldMap from '../assets/world-map.png';
 
 const packages = [
   {
-    title: 'Family Vacations',
-    description: 'Create unforgettable memories with our kid-friendly itineraries and comfortable stays.',
-    icon: <Users size={40} className="text-secondary" />,
-    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=600',
+    title: 'Day Trips',
+    description: 'Quick and refreshing getaways to scenic spots perfect for a single-day adventure.',
+    icon: <Compass size={40} className="text-secondary" />,
+    image: service1,
   },
   {
-    title: 'Honeymoon Specials',
-    description: 'Romantic getaways in Kashmir, Kerala, and Himachal with candlelight dinners and private tours.',
-    icon: <Heart size={40} className="text-secondary" />,
-    image: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=600',
+    title: 'City Tours',
+    description: 'Explore the local heritage, culture, and landmarks with our guided city experiences.',
+    icon: <MapPin size={40} className="text-secondary" />,
+    image: service2,
   },
   {
-    title: 'Group & Corporate',
-    description: 'Seamless planning for large groups, educational tours, and corporate offsites.',
+    title: 'Corporate Tours',
+    description: 'Professional arrangements for team building, offsites, and business travel.',
     icon: <Briefcase size={40} className="text-secondary" />,
-    image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=600',
+    image: service3,
   },
 ];
 
@@ -29,7 +33,7 @@ const Services = () => {
       id="packages" 
       className="py-20 relative"
       style={{
-        backgroundImage: 'linear-gradient(rgba(248, 249, FA, 0.95), rgba(248, 249, FA, 0.95)), url("https://www.transparenttextures.com/patterns/world-map.png")',
+        backgroundImage: `linear-gradient(rgba(248, 249, 250, 0.95), rgba(248, 249, 250, 0.95)), url(${worldMap})`,
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

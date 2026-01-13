@@ -2,7 +2,7 @@
   "company": {
     "name": "City Travels",
     "tagline": "Custom Domestic Tours",
-    "description": "Customized travel packages designed for families, couples, and groups. Let us craft your perfect getaway with 24/7 support and unbeatable prices.",
+    "description": "Specializing in Day Trips, City Tours, and Corporate Packages. Let us craft your perfect getaway with 24/7 support and unbeatable prices.",
     "foundedYear": 2015
   },
   "contact": {
@@ -34,5 +34,28 @@
     "Goa",
     "Rajasthan",
     "Uttarakhand"
+  ],
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Arun Kumar",
+      "role": "HR Manager, TechSolutions",
+      "content": "City Travels organized an amazing corporate offsite for our team in Wayanad. Everything from transport to team-building activities was flawless. Highly recommended for corporate groups!",
+      "location": "Bangalore"
+    },
+    {
+      "id": 2,
+      "name": "Sarah & Family",
+      "role": "City Tour",
+      "content": "We had a wonderful day exploring the heritage of Trivandrum. The guide was knowledgeable and the itinerary was perfect for our kids. A memorable experience!",
+      "location": "Kerala"
+    },
+    {
+      "id": 3,
+      "name": "Priya Menon",
+      "role": "Day Tripper",
+      "content": "The quick day trip to Ponmudi was exactly what I needed to recharge. Hassle-free booking and excellent service. Will definitely book another weekend getaway soon.",
+      "location": "Trivandrum"
+    }
   ]
 }

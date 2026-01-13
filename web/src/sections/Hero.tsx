@@ -5,8 +5,10 @@ import hero1 from '../assets/hero-1.jpg';
 import hero2 from '../assets/hero-2.jpg';
 import hero3 from '../assets/hero-3.jpg';
 import hero4 from '../assets/hero-4.jpg';
+import hero5 from '../assets/hero-5.jpg';
+import hero6 from '../assets/hero-6.jpg';
 
-const heroImages = [hero1, hero2, hero3, hero4];
+const heroImages = [hero1, hero2, hero3, hero4, hero5, hero6];
 
 const Hero = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -45,7 +47,7 @@ const Hero = () => {
           Experience the Best of India with <span className="text-secondary">City Travels</span>
         </h1>
         <p className="text-lg sm:text-xl text-gray-100 mb-10 max-w-3xl mx-auto font-body drop-shadow-lg">
-          Customized travel packages designed for families, couples, and groups. 
+          Specializing in Day Trips, City Tours, and Corporate Packages. 
           Let us craft your perfect getaway with 24/7 support and unbeatable prices.
         </p>
         
