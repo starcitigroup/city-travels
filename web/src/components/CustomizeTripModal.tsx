@@ -22,29 +22,37 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
     notes: ''
   });
 
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<{name: string, city?: string, state?: string}[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
-  // Aggregate destinations for suggestions
+  // Use Photon API for live suggestions
   useEffect(() => {
-    const dests = new Set<string>();
-    companyData.destinations.forEach(d => dests.add(d));
-    companyData.brochures.forEach(b => {
-      // Extract main location from title or highlights if possible
-      // For now, we'll manually add common ones derived from titles
-      if (b.title.includes('Munnar')) dests.add('Munnar');
-      if (b.title.includes('Wayanad')) dests.add('Wayanad');
-      if (b.title.includes('Trivandrum')) dests.add('Trivandrum');
-      if (b.title.includes('Kanyakumari')) dests.add('Kanyakumari');
-      if (b.title.includes('Rameshwaram')) dests.add('Rameshwaram');
-      if (b.title.includes('Madurai')) dests.add('Madurai');
-      if (b.title.includes('Thekkady')) dests.add('Thekkady');
-      if (b.title.includes('Alleppey')) dests.add('Alleppey');
-      if (b.title.includes('Kumarakom')) dests.add('Kumarakom');
-      if (b.title.includes('Varkala')) dests.add('Varkala');
-    });
-    setSuggestions(Array.from(dests).sort());
-  }, []);
+    if (formData.destination.length < 3) {
+      setSuggestions([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setIsLoadingSuggestions(true);
+      try {
+        const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(formData.destination)}&limit=5`);
+        const data = await response.json();
+        const results = data.features.map((f: any) => ({
+          name: f.properties.name,
+          city: f.properties.city,
+          state: f.properties.state
+        }));
+        setSuggestions(results);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+      } finally {
+        setIsLoadingSuggestions(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [formData.destination]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -54,11 +62,14 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
   const handleDestinationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setFormData(prev => ({ ...prev, destination: value }));
-    setShowSuggestions(value.length > 0);
+    setShowSuggestions(true);
   };
 
-  const selectSuggestion = (suggestion: string) => {
-    setFormData(prev => ({ ...prev, destination: suggestion }));
+  const selectSuggestion = (suggestion: {name: string, city?: string, state?: string}) => {
+    const fullName = [suggestion.name, suggestion.city, suggestion.state]
+      .filter(Boolean)
+      .join(', ');
+    setFormData(prev => ({ ...prev, destination: fullName }));
     setShowSuggestions(false);
   };
 
@@ -138,23 +149,36 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
                 <MapPin className="absolute left-3 top-3.5 text-gray-400" size={18} />
                 
                 {/* Suggestions Dropdown */}
-                {showSuggestions && formData.destination && (
-                  <div className="absolute z-20 w-full bg-white border border-gray-100 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto">
-                    {suggestions
-                      .filter(s => s.toLowerCase().includes(formData.destination.toLowerCase()))
-                      .map((s, i) => (
+                {showSuggestions && (formData.destination.length >= 3) && (
+                  <div className="absolute z-20 w-full bg-white border border-gray-100 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto">
+                    {isLoadingSuggestions ? (
+                      <div className="px-4 py-3 text-sm text-gray-500 flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                        Searching...
+                      </div>
+                    ) : suggestions.length > 0 ? (
+                      suggestions.map((s, i) => (
                         <div
                           key={i}
-                          className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-gray-700 flex items-center gap-2"
+                          className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b last:border-0 border-gray-50 transition-colors"
                           onClick={() => selectSuggestion(s)}
                         >
-                          <MapPin size={14} className="text-gray-400"/> {s}
+                          <div className="flex items-center gap-2">
+                            <MapPin size={14} className="text-secondary"/>
+                            <span className="font-medium text-gray-800">{s.name}</span>
+                          </div>
+                          {(s.city || s.state) && (
+                            <div className="text-xs text-gray-500 ml-5">
+                              {[s.city, s.state].filter(Boolean).join(', ')}
+                            </div>
+                          )}
                         </div>
-                      ))}
-                     {/* Allow custom input fallback visual */}
-                     <div className="px-4 py-2 text-xs text-gray-400 border-t border-gray-50 bg-gray-50">
-                        Type to search or enter custom location
-                     </div>
+                      ))
+                    ) : (
+                      <div className="px-4 py-3 text-sm text-gray-500">
+                        No locations found. You can still type yours.
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

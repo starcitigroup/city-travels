@@ -112,7 +112,9 @@
       "name": "Arun Kumar",
       "role": "HR Manager, TechSolutions",
       "content": "City Travels organized an amazing corporate offsite for our team in Wayanad. Everything from transport to team-building activities was flawless. Highly recommended for corporate groups!",
-      "location": "Bangalore"
+      "location": "Bangalore",
+      "image": "/testimonials/profile/arun.jpg",
+      "tripImage": "/testimonials/trips/arun-trip.jpg"
     },
     {
       "id": 2,
@@ -128,7 +130,9 @@
       "name": "Priya Menon",
       "role": "Day Tripper",
       "content": "The quick day trip to Ponmudi was exactly what I needed to recharge. Hassle-free booking and excellent service. Will definitely book another weekend getaway soon.",
-      "location": "Trivandrum"
+      "location": "Trivandrum",
+      "image": "/testimonials/profile/priya.jpg",
+      "tripImage": "/testimonials/trips/priya-trip.jpg"
     },
     {
       "id": 4,
