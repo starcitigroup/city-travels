@@ -118,12 +118,12 @@
     },
     {
       "id": 2,
-      "name": "Sarah & Family",
-      "role": "City Tour",
-      "content": "We had a wonderful day exploring the heritage of Trivandrum. The guide was knowledgeable and the itinerary was perfect for our kids. A memorable experience!",
-      "location": "Kerala",
-      "image": "/testimonials/profile/sarah.jpg",
-      "tripImage": "/testimonials/trips/sarah-trip.jpg"
+      "name": "Adarsh",
+      "role": "Group Traveler",
+      "content": "Booked the service for a group trip. I appreciate the seamless coordination and attention to detail. The itinerary was well-planned, and the service exceeded my expectations. I liked the customization options available",
+      "location": "Bangalore",
+      "image": "/testimonials/profile/adarsh.jpg",
+      "tripImage": "/testimonials/trips/adarsh-trip.png"
     },
     {
       "id": 3,
@@ -138,7 +138,7 @@
       "id": 4,
       "name": "Rahul & Neha",
       "role": "Honeymooners",
-      "content": "Our honeymoon in Munnar was magical, thanks to City Travels. The candlelight dinner arrangements and the private houseboat stay were beyond our expectations.",
+      "content": "Our honeymoon in Goa was magical, thanks to City Travels. The candlelight dinner arrangements and the private beach stay were beyond our expectations.",
       "location": "Chennai",
       "image": "/testimonials/profile/rahul.jpg",
       "tripImage": "/testimonials/trips/rahul-trip.jpg"
@@ -148,8 +148,7 @@
       "name": "Mark Thomson",
       "role": "International Traveler",
       "content": "Traveling from the UK, I was worried about logistics, but City Travels handled everything professionally. The Kerala Backwaters tour is a must-do!",
-      "location": "London, UK",
-      "image": "/testimonials/profile/mark.jpg"
+      "location": "London, UK"
     },
     {
       "id": 6,
@@ -160,5 +159,6 @@
       "image": "/testimonials/profile/techcorp.jpg",
       "tripImage": "/testimonials/trips/techcorp-trip.jpg"
     }
+
   ]
 }

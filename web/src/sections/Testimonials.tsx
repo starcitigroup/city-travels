@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Quote, Star, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import companyData from '../data/companyData.json';
 
-const DEFAULT_AVATAR = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-const TRIP_PLACEHOLDER = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop';
+const DEFAULT_AVATAR = '/testimonials/profile/default-avatar.png';
+const TRIP_PLACEHOLDER = '/testimonials/trips/placeholder-trip.jpg';
 
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
