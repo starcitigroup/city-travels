@@ -35,6 +35,49 @@
     "Rajasthan",
     "Uttarakhand"
   ],
+  "brochures": [
+    {
+      "id": 1,
+      "title": "Houseboat Cruise",
+      "duration": "Overnight/ Day/ Night",
+      "highlights": ["Backwater Cruise", "Houseboat Stay", "Breakfast, Lunch, Dinner", "Scenic Views"],
+      "image": "/brochures/houseboat_cruise.jpg",
+      "file": "/brochures/houseboat_cruise.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Trivandrum-Kanyakumari",
+      "duration": "1Day",
+      "highlights": ["Poovar Backwaters", "Padmanabhapuram Palace", "Vivekananda Rock", "Kanyakumari Sunset"],
+      "image": "/brochures/tvm_cape_1D.jpg",
+      "file": "/brochures/tvm_cape_1D.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Trivandrum Temple Tour",
+      "duration": "1Day",
+      "highlights": ["Padmanabha Swami Temple", "Pazhavangadi Ganesha Temple", "Attukal Bhagavathy Temple", "Azhimala shiva Temple", "Chenkal Siva Temple", "Sree Parasurama Temple"],
+      "image": "/brochures/tvm1D_Temple.jpg",
+      "file": "/brochures/tvm1D_Temple.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Trivandrum-Kanyakumari",
+      "duration": "2Days/1Night",
+      "highlights": ["AC Travel & Stay","Ervadi Darga Sherif", "Attinkarapally", "Kanyakumari", "Padmanabhapuram Palace"],
+      "image": "/brochures/tvm_2D.jpg",
+      "price": "₹2600",
+      "file": "/brochures/tvm_2D.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Trivandrum City Tour",
+      "duration": "1Day",
+      "highlights": ["Padmanabha Swami Temple", "Kovalam", "Poovar Backwaters", "Azhimala", "Vizhinjam", "Zoo, Museums"],
+      "image": "/brochures/tvm1D_Temple.jpg",
+      "file": "/brochures/tvm1D_Temple.jpg"
+    }
+  ],
   "testimonials": [
     {
       "id": 1,

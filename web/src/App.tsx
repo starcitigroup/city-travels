@@ -3,6 +3,7 @@ import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import Hero from './sections/Hero';
 import Services from './sections/Services';
+import FeaturedPackages from './sections/FeaturedPackages';
 import WhyUs from './sections/WhyUs';
 import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
@@ -15,6 +16,7 @@ function App() {
       <main>
         <Hero />
         <Services />
+        <FeaturedPackages />
         <WhyUs />
         <Testimonials />
         <Contact />
