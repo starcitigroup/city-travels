@@ -1,5 +1,5 @@
 import { Link } from 'react-scroll';
-import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from 'lucide-react';
+import { Facebook, Instagram, MapPin, Phone, Mail } from 'lucide-react';
 import companyData from '../data/companyData.json';
 
 const Footer = () => {
@@ -25,8 +25,8 @@ const Footer = () => {
               <a href={social.instagram} aria-label="Instagram" className="p-2 bg-gray-800 rounded-full hover:bg-secondary transition-colors" target="_blank" rel="noopener noreferrer">
                 <Instagram size={20} />
               </a>
-              <a href={social.twitter} aria-label="Twitter" className="p-2 bg-gray-800 rounded-full hover:bg-secondary transition-colors" target="_blank" rel="noopener noreferrer">
-                <Twitter size={20} />
+              <a href={social.google} aria-label="Google Maps" className="p-2 bg-gray-800 rounded-full hover:bg-secondary transition-colors" target="_blank" rel="noopener noreferrer">
+                <MapPin size={20} />
               </a>
             </div>
           </div>
