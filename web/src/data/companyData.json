@@ -56,7 +56,7 @@
       "id": 3,
       "title": "Trivandrum Temple Tour",
       "duration": "1Day",
-      "highlights": ["Padmanabha Swami Temple", "Pazhavangadi Ganesha Temple", "Attukal Bhagavathy Temple", "Azhimala shiva Temple", "Chenkal Siva Temple", "Sree Parasurama Temple"],
+      "highlights": ["Padmanabha Swami Temple", "Attukal Bhagavathy Temple", "Azhimala shiva Temple", "Chenkal Siva Temple"],
       "image": "/brochures/tvm1D_Temple.jpg",
       "file": "/brochures/tvm1D_Temple.jpg"
     },
@@ -64,7 +64,7 @@
       "id": 4,
       "title": "Trivandrum-Kanyakumari",
       "duration": "2Days/1Night",
-      "highlights": ["AC Travel & Stay","Ervadi Darga Sherif", "Attinkarapally", "Kanyakumari", "Padmanabhapuram Palace"],
+      "highlights": ["AC Travel & Stay", "Ervadi Darga Sherif", "Attinkarapally", "Kanyakumari", "Padmanabhapuram Palace"],
       "image": "/brochures/tvm_2D.jpg",
       "price": "₹2600",
       "file": "/brochures/tvm_2D.jpg"
@@ -76,6 +76,34 @@
       "highlights": ["Padmanabha Swami Temple", "Kovalam", "Poovar Backwaters", "Azhimala", "Vizhinjam", "Zoo, Museums"],
       "image": "/brochures/tvm1D_Temple.jpg",
       "file": "/brochures/tvm1D_Temple.jpg"
+    },
+    {
+      "id": 6,
+      "title": "Tanjavur-Madurai",
+      "duration": "3Days/2Night",
+      "highlights": ["AC Travel & Stay", "Temple Visits", "Chettinad Palace", "Cultural Experiences", "Local Cuisine", "Shopping", "Guided Tours", "Madurai Meenakshi Temple"],
+      "image": "/brochures/chettinad.jpg"
+    },
+    {
+      "id": 7,
+      "title": "Wayanad Corporate Offsite",
+      "duration": "2Days/1Night",
+      "highlights": ["Team Building Activities", "Resort Stay", "Adventure Sports", "Bonfire Evenings", "Cultural Programs"],
+      "image": "/brochures/wayanad.jpg"
+    },
+    {
+      "id": 8,
+      "title": "Munnar Day Trip",
+      "duration": "1Day",
+      "highlights": ["Tea Gardens", "Eravikulam National Park", "Mattupetty Dam", "Echo Point", "Local Cuisine"],
+      "image": "/brochures/munnar.jpg"
+    },
+    {
+      "id": 9,
+      "title": "Rameshwaram Tour",
+      "duration": "1Day",
+      "highlights": [ "AC Travel & Stay", "Local Cuisine", "Cultural Experiences", "Temple Visits", "Dhanushkodi", "Pamban Bridge", "Ram Setu"],
+      "image": "/brochures/rameswaram.jpg"
     }
   ],
   "testimonials": [

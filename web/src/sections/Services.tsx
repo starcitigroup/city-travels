@@ -1,6 +1,5 @@
 import { MapPin, Briefcase, Compass, Globe, Ship, Car } from 'lucide-react';
 import { Link } from 'react-scroll';
-import companyData from '../data/companyData.json';
 import service1 from '../assets/service-1.jpg';
 import service2 from '../assets/service-2.jpg';
 import service3 from '../assets/service-3.jpg';
@@ -99,17 +98,6 @@ const Services = () => {
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="text-gray-500 mb-4 font-semibold uppercase tracking-wider text-sm">Popular Destinations</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {companyData.destinations.map((city) => (
-              <span key={city} className="bg-white border border-gray-200 px-4 py-2 rounded-full text-gray-700 flex items-center gap-2 shadow-sm font-medium">
-                <MapPin size={16} className="text-secondary" />
-                {city}
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
