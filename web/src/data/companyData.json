@@ -119,7 +119,9 @@
       "name": "Sarah & Family",
       "role": "City Tour",
       "content": "We had a wonderful day exploring the heritage of Trivandrum. The guide was knowledgeable and the itinerary was perfect for our kids. A memorable experience!",
-      "location": "Kerala"
+      "location": "Kerala",
+      "image": "/testimonials/profile/sarah.jpg",
+      "tripImage": "/testimonials/trips/sarah-trip.jpg"
     },
     {
       "id": 3,
@@ -127,6 +129,32 @@
       "role": "Day Tripper",
       "content": "The quick day trip to Ponmudi was exactly what I needed to recharge. Hassle-free booking and excellent service. Will definitely book another weekend getaway soon.",
       "location": "Trivandrum"
+    },
+    {
+      "id": 4,
+      "name": "Rahul & Neha",
+      "role": "Honeymooners",
+      "content": "Our honeymoon in Munnar was magical, thanks to City Travels. The candlelight dinner arrangements and the private houseboat stay were beyond our expectations.",
+      "location": "Chennai",
+      "image": "/testimonials/profile/rahul.jpg",
+      "tripImage": "/testimonials/trips/rahul-trip.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Mark Thomson",
+      "role": "International Traveler",
+      "content": "Traveling from the UK, I was worried about logistics, but City Travels handled everything professionally. The Kerala Backwaters tour is a must-do!",
+      "location": "London, UK",
+      "image": "/testimonials/profile/mark.jpg"
+    },
+    {
+      "id": 6,
+      "name": "TechCorp Team",
+      "role": "Corporate Offsite",
+      "content": "A seamless experience for our annual team retreat. The luxury bus was comfortable, and the resort selection was top-notch. Great value for money.",
+      "location": "Hyderabad",
+      "image": "/testimonials/profile/techcorp.jpg",
+      "tripImage": "/testimonials/trips/techcorp-trip.jpg"
     }
   ]
 }

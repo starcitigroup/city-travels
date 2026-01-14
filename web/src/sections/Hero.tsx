@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import hero1 from '../assets/hero-1.jpg';
 import hero2 from '../assets/hero-2.jpg';
 import hero3 from '../assets/hero-3.jpg';
 import hero4 from '../assets/hero-4.jpg';
 import hero5 from '../assets/hero-5.jpg';
 import hero6 from '../assets/hero-6.jpg';
+import CustomizeTripModal from '../components/CustomizeTripModal';
 
 const heroImages = [hero1, hero2, hero3, hero4, hero5, hero6];
 
 const Hero = () => {
   const [currentImage, setCurrentImage] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,16 +54,13 @@ const Hero = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="contact"
-            smooth={true}
-            duration={500}
-            offset={-80}
+          <button
+            onClick={() => setIsModalOpen(true)}
             className="bg-secondary text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-opacity-90 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
-            Start Planning
-            <ArrowRight size={20} />
-          </Link>
+            Customize Your Trip
+            <Sparkles size={20} />
+          </button>
           <Link
             to="packages"
             smooth={true}
@@ -73,6 +72,8 @@ const Hero = () => {
           </Link>
         </div>
       </div>
+
+      <CustomizeTripModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };

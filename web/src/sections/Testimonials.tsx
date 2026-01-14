@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Quote, Star, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import companyData from '../data/companyData.json';
 
 const DEFAULT_AVATAR = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
@@ -59,33 +59,42 @@ const Testimonials = () => {
             {currentItems.map((testimonial) => (
               <div 
                 key={testimonial.id} 
-                className="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col border border-gray-100"
+                className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col border border-gray-100 relative group"
               >
-                <div className="flex gap-1 text-yellow-400 mb-4">
+                {/* Stylized Quote Icon Background */}
+                <div className="absolute top-4 right-6 text-gray-100 group-hover:text-blue-50 transition-colors">
+                  <Quote size={80} fill="currentColor" />
+                </div>
+
+                <div className="flex gap-1 text-yellow-400 mb-6 relative z-10">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
+                    <Star key={i} size={16} fill="currentColor" />
                   ))}
                 </div>
 
-                <p className="text-gray-700 mb-6 italic leading-relaxed text-sm flex-grow">
+                <p className="text-gray-700 mb-8 italic leading-relaxed relative z-10 flex-grow text-lg">
                   "{testimonial.content}"
                 </p>
 
-                <div className="flex items-center gap-3 pt-4 border-t border-gray-200 mt-auto">
-                  <img 
-                    src={testimonial.image || DEFAULT_AVATAR} 
-                    alt={testimonial.name}
-                    className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
-                  />
-                  <div>
-                    <h4 className="font-bold text-dark text-sm leading-tight">{testimonial.name}</h4>
-                    <p className="text-[10px] text-secondary font-bold uppercase tracking-wide">{testimonial.role}</p>
-                    <p className="text-[10px] text-gray-400">{testimonial.location}</p>
+                <div className="flex items-center gap-4 pt-6 border-t border-gray-100 mt-auto relative z-10">
+                  <div className="relative">
+                    <img 
+                      src={testimonial.image || DEFAULT_AVATAR} 
+                      alt={testimonial.name}
+                      className="w-14 h-14 rounded-full object-cover ring-4 ring-blue-50 shadow-md"
+                    />
+                    <div className="absolute -bottom-1 -right-1 bg-secondary text-white p-1 rounded-full shadow-sm">
+                      <Star size={10} fill="currentColor" />
+                    </div>
                   </div>
-                  <Quote 
-                    size={24} 
-                    className="text-gray-200 ml-auto transform rotate-180" 
-                  />
+                  <div>
+                    <h4 className="font-bold text-primary text-base leading-tight">{testimonial.name}</h4>
+                    <p className="text-xs text-secondary font-bold uppercase tracking-widest mt-1">{testimonial.role}</p>
+                    <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
+                      <MapPin size={10} />
+                      {testimonial.location}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
