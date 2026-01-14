@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, MapPin, Calendar, Users, Car, Home, Phone, User, Send } from 'lucide-react';
+import { X, MapPin, Calendar, Users, Car, Home, Phone, User, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import companyData from '../data/companyData.json';
+import { trackEvent, ANALYTICS_EVENTS } from '../utils/analytics';
+import emailjs from '@emailjs/browser';
 
 interface CustomizeTripModalProps {
   isOpen: boolean;
@@ -12,9 +14,8 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
     destination: '',
     startDate: '',
     endDate: '',
-    duration: '', // alternate to dates if user prefers
-    stayType: 'Standard',
-    vehicleType: 'Sedan',
+    stayType: 'Standard Hotel (3 Star)',
+    vehicleType: 'Sedan (4 Seater)',
     adults: 2,
     children: 0,
     name: '',
@@ -22,6 +23,7 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
     notes: ''
   });
 
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [suggestions, setSuggestions] = useState<{name: string, city?: string, state?: string}[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
@@ -73,29 +75,80 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
     setShowSuggestions(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setStatus('sending');
     
-    // Construct WhatsApp Message
-    const text = `*New Trip Customization Request*%0A
---------------------------------%0A
-*Destination:* ${formData.destination}%0A
-*Dates:* ${formData.startDate} to ${formData.endDate}%0A
-*Stay:* ${formData.stayType}%0A
-*Vehicle:* ${formData.vehicleType}%0A
-*Pax:* ${formData.adults} Adults, ${formData.children} Kids%0A
---------------------------------%0A
-*Contact Details:*%0A
-*Name:* ${formData.name}%0A
-*Phone:* ${formData.phone}%0A
-*Notes:* ${formData.notes}%0A
+    trackEvent(ANALYTICS_EVENTS.CUSTOMIZE_TRIP_SUBMIT, {
+      destination: formData.destination,
+      stayType: formData.stayType,
+      vehicleType: formData.vehicleType,
+      pax: formData.adults + formData.children
+    });
+
+    // 1. WhatsApp Redirection
+    const whatsappMessage = `*New Trip Customization Request*
+--------------------------------
+*Destination:* ${formData.destination}
+*Dates:* ${formData.startDate} to ${formData.endDate}
+*Stay:* ${formData.stayType}
+*Vehicle:* ${formData.vehicleType}
+*Pax:* ${formData.adults} Adults, ${formData.children} Kids
+--------------------------------
+*Contact Details:*
+*Name:* ${formData.name}
+*Phone:* ${formData.phone}
+*Notes:* ${formData.notes}
 --------------------------------`;
 
     const whatsappNumber = companyData.contact.whatsapp.replace('+', '');
-    const url = `https://wa.me/${whatsappNumber}?text=${text}`;
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
     
-    window.open(url, '_blank');
-    onClose();
+    // Open WhatsApp
+    window.open(whatsappUrl, '_blank');
+
+    // 2. EmailJS Submission
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_CUSTOMIZE_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.warn('EmailJS keys missing.');
+      setStatus('success');
+      setTimeout(() => {
+        onClose();
+        setStatus('idle');
+      }, 2000);
+      return;
+    }
+
+    try {
+      // Map form data to template parameters
+      const templateParams = {
+        from_name: formData.name,
+        from_phone: formData.phone,
+        destination: formData.destination,
+        start_date: formData.startDate,
+        end_date: formData.endDate,
+        stay_type: formData.stayType,
+        vehicle_type: formData.vehicleType,
+        adults: formData.adults,
+        children: formData.children,
+        notes: formData.notes,
+        subject: `Custom Trip Inquiry: ${formData.destination} by ${formData.name}`
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      setStatus('success');
+      setTimeout(() => {
+        onClose();
+        setStatus('idle');
+      }, 2500);
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 4000);
+    }
   };
 
   if (!isOpen) return null;
@@ -355,10 +408,36 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
 
           <button
             type="submit"
-            className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1"
+            disabled={status === 'sending' || status === 'success'}
+            className={`w-full text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1 ${
+              status === 'success' 
+                ? 'bg-green-500 hover:bg-green-600' 
+                : status === 'error'
+                ? 'bg-red-500'
+                : 'bg-[#25D366] hover:bg-[#20bd5a]'
+            }`}
           >
-            <Send size={20} />
-            Send Inquiry via WhatsApp
+            {status === 'sending' ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                Sending...
+              </>
+            ) : status === 'success' ? (
+              <>
+                <CheckCircle2 size={20} />
+                Request Sent Successfully!
+              </>
+            ) : status === 'error' ? (
+              <>
+                <AlertCircle size={20} />
+                Failed to send. Try again.
+              </>
+            ) : (
+              <>
+                <Send size={20} />
+                Send Inquiry
+              </>
+            )}
           </button>
           
         </form>

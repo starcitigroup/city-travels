@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import companyData from '../data/companyData.json';
 import emailjs from '@emailjs/browser';
+import { trackEvent, ANALYTICS_EVENTS } from '../utils/analytics';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -25,8 +26,13 @@ const Contact = () => {
     e.preventDefault();
     setStatus('sending');
 
+    trackEvent(ANALYTICS_EVENTS.CONTACT_FORM_SUBMIT, {
+      destination: formData.destination,
+      travelers: formData.travelers
+    });
+
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     // --- WhatsApp Integration (Free) ---

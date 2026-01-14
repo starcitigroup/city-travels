@@ -49,7 +49,7 @@ const packages = [
 const Services = () => {
   return (
     <section 
-      id="packages" 
+      id="services" 
       className="py-20 relative"
       style={{
         backgroundImage: 'linear-gradient(rgba(248, 249, FA, 0.95), rgba(248, 249, FA, 0.95)), url("https://www.transparenttextures.com/patterns/world-map.png")',

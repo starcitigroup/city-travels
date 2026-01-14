@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FileDown, Clock, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import companyData from '../data/companyData.json';
+import { trackEvent, ANALYTICS_EVENTS } from '../utils/analytics';
 
 const ITEMS_PER_PAGE = 3;
 
@@ -20,7 +21,7 @@ const FeaturedPackages = () => {
   };
 
   return (
-    <section id="brochures" className="py-20 bg-gray-50">
+    <section id="packages" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Popular Itineraries</h2>
@@ -79,6 +80,7 @@ const FeaturedPackages = () => {
                       href={`https://wa.me/${companyData.contact.whatsapp.replace('+', '')}?text=Hi, I am interested in the ${item.title} package. Please provide more details.`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => trackEvent(ANALYTICS_EVENTS.WHATSAPP_CLICK, { package_title: item.title, location: 'package_card' })}
                       className="flex items-center justify-center gap-2 bg-secondary text-white py-2.5 rounded-lg font-semibold hover:bg-opacity-90 transition-all text-sm shadow-sm"
                     >
                       <MessageCircle size={18} />
@@ -88,6 +90,7 @@ const FeaturedPackages = () => {
                       <a 
                         href={item.file}
                         download
+                        onClick={() => trackEvent(ANALYTICS_EVENTS.BROCHURE_DOWNLOAD, { package_title: item.title })}
                         className="flex items-center justify-center gap-2 bg-white text-dark border border-gray-300 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition-all text-sm"
                       >
                         <FileDown size={18} />
