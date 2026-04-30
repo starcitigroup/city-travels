@@ -1,17 +1,52 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FileDown, Clock, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import companyData from '../data/companyData.json';
-import adminData from '../data/adminData.json';
+import { supabase } from '../lib/supabase';
 import { trackEvent, ANALYTICS_EVENTS } from '../utils/analytics';
 
 const ITEMS_PER_PAGE = 3;
 
+interface Brochure {
+  id: number;
+  title: string;
+  duration: string;
+  highlights: string[];
+  image: string;
+  file?: string;
+  price?: string;
+}
+
 const FeaturedPackages = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [brochures, setBrochures] = useState<Brochure[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const totalPages = Math.ceil(adminData.brochures.length / ITEMS_PER_PAGE);
+  useEffect(() => {
+    const fetchBrochures = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('brochures')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+        setBrochures(data || []);
+      } catch (err: any) {
+        console.error('Error fetching brochures:', err.message);
+        setError('Failed to load packages. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrochures();
+  }, []);
+
+  const totalPages = Math.ceil(brochures.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentPackages = adminData.brochures.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const currentPackages = brochures.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -20,6 +55,26 @@ const FeaturedPackages = () => {
       section.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  if (loading) {
+    return (
+      <section id="packages" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-gray-600">Loading amazing packages...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="packages" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-red-500">{error}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="packages" className="py-20 bg-gray-50">

@@ -1,14 +1,48 @@
 import { useState, useEffect } from 'react';
 import { Quote, Star, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
-import companyData from '../data/companyData.json';
-import adminData from '../data/adminData.json';
+import { supabase } from '../lib/supabase';
 
 const DEFAULT_AVATAR = '/testimonials/profile/default-avatar.png';
 const TRIP_PLACEHOLDER = '/testimonials/trips/placeholder-trip.jpg';
 
+interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  content: string;
+  location: string;
+  image?: string;
+  trip_image?: string;
+}
+
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(1);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('testimonials')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+        setTestimonials(data || []);
+      } catch (err: any) {
+        console.error('Error fetching testimonials:', err.message);
+        setError('Failed to load testimonials.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,13 +60,15 @@ const Testimonials = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const totalSlides = Math.ceil(adminData.testimonials.length / itemsPerPage);
+  const totalSlides = Math.ceil(testimonials.length / itemsPerPage);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % totalSlides);
-    }, 5000);
-    return () => clearInterval(interval);
+    if (totalSlides > 0) {
+      const interval = setInterval(() => {
+        setActiveIndex((prev) => (prev + 1) % totalSlides);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
   }, [totalSlides]);
 
   const nextSlide = () => {
@@ -44,7 +80,17 @@ const Testimonials = () => {
   };
 
   const startIndex = activeIndex * itemsPerPage;
-  const currentItems = adminData.testimonials.slice(startIndex, startIndex + itemsPerPage);
+  const currentItems = testimonials.slice(startIndex, startIndex + itemsPerPage);
+
+  if (loading) {
+    return (
+      <section id="testimonials" className="py-20 bg-gray-50/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-gray-600">Loading traveler stories...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="testimonials" className="py-20 bg-gray-50/50">
@@ -56,91 +102,97 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[550px]">
-            {currentItems.map((testimonial) => (
-              <div 
-                key={testimonial.id} 
-                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden border border-gray-100 group"
-              >
-                {/* Trip Image - Always present for consistency */}
-                <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={testimonial.tripImage || TRIP_PLACEHOLDER} 
-                    alt="Trip Memory"
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
-                  <div className="absolute bottom-4 left-6">
-                    <div className="flex gap-1 text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={14} fill="currentColor" />
-                      ))}
+        {error ? (
+          <div className="text-center text-red-500">{error}</div>
+        ) : (
+          <div className="relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[550px]">
+              {currentItems.map((testimonial) => (
+                <div 
+                  key={testimonial.id} 
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden border border-gray-100 group"
+                >
+                  {/* Trip Image - Always present for consistency */}
+                  <div className="relative h-48 overflow-hidden">
+                    <img 
+                      src={testimonial.trip_image || TRIP_PLACEHOLDER} 
+                      alt="Trip Memory"
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+                    <div className="absolute bottom-4 left-6">
+                      <div className="flex gap-1 text-yellow-400">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} size={14} fill="currentColor" />
+                        ))}
+                      </div>
+                    </div>
+                    {/* Subtle Quote Icon Overlay */}
+                    <Quote size={40} className="absolute top-4 right-4 text-white/20" fill="currentColor" />
+                  </div>
+
+                  <div className="p-8 flex flex-col flex-grow relative">
+                    <p className="text-gray-700 mb-8 italic leading-relaxed text-base flex-grow">
+                      "{testimonial.content}"
+                    </p>
+
+                    <div className="flex items-center gap-4 pt-6 border-t border-gray-100 mt-auto">
+                      <div className="relative">
+                        <img 
+                          src={testimonial.image || DEFAULT_AVATAR} 
+                          alt={testimonial.name}
+                          className="w-12 h-12 rounded-full object-cover ring-4 ring-blue-50 shadow-sm"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-primary text-sm leading-tight">{testimonial.name}</h4>
+                        <p className="text-[10px] text-secondary font-bold uppercase tracking-widest mt-1">{testimonial.role}</p>
+                        <p className="text-[10px] text-gray-400 flex items-center gap-1 mt-0.5">
+                          <MapPin size={10} />
+                          {testimonial.location}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  {/* Subtle Quote Icon Overlay */}
-                  <Quote size={40} className="absolute top-4 right-4 text-white/20" fill="currentColor" />
                 </div>
-
-                <div className="p-8 flex flex-col flex-grow relative">
-                  <p className="text-gray-700 mb-8 italic leading-relaxed text-base flex-grow">
-                    "{testimonial.content}"
-                  </p>
-
-                  <div className="flex items-center gap-4 pt-6 border-t border-gray-100 mt-auto">
-                    <div className="relative">
-                      <img 
-                        src={testimonial.image || DEFAULT_AVATAR} 
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover ring-4 ring-blue-50 shadow-sm"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-primary text-sm leading-tight">{testimonial.name}</h4>
-                      <p className="text-[10px] text-secondary font-bold uppercase tracking-widest mt-1">{testimonial.role}</p>
-                      <p className="text-[10px] text-gray-400 flex items-center gap-1 mt-0.5">
-                        <MapPin size={10} />
-                        {testimonial.location}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Controls */}
-          <div className="flex justify-center items-center gap-6 mt-12">
-            <button 
-              onClick={prevSlide}
-              className="p-3 rounded-full bg-white text-dark shadow-md hover:bg-primary hover:text-white transition-all focus:outline-none border border-gray-100"
-              aria-label="Previous"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            
-            <div className="flex gap-2">
-              {Array.from({ length: totalSlides }).map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveIndex(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    activeIndex === idx ? 'bg-secondary w-6' : 'bg-gray-300 w-2 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
               ))}
             </div>
 
-            <button 
-              onClick={nextSlide}
-              className="p-3 rounded-full bg-white text-dark shadow-md hover:bg-primary hover:text-white transition-all focus:outline-none border border-gray-100"
-              aria-label="Next"
-            >
-              <ChevronRight size={20} />
-            </button>
+            {/* Controls */}
+            {totalSlides > 1 && (
+              <div className="flex justify-center items-center gap-6 mt-12">
+                <button 
+                  onClick={prevSlide}
+                  className="p-3 rounded-full bg-white text-dark shadow-md hover:bg-primary hover:text-white transition-all focus:outline-none border border-gray-100"
+                  aria-label="Previous"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                
+                <div className="flex gap-2">
+                  {Array.from({ length: totalSlides }).map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveIndex(idx)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        activeIndex === idx ? 'bg-secondary w-6' : 'bg-gray-300 w-2 hover:bg-gray-400'
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button 
+                  onClick={nextSlide}
+                  className="p-3 rounded-full bg-white text-dark shadow-md hover:bg-primary hover:text-white transition-all focus:outline-none border border-gray-100"
+                  aria-label="Next"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
