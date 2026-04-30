@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Quote, Star, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import companyData from '../data/companyData.json';
+import adminData from '../data/adminData.json';
 
 const DEFAULT_AVATAR = '/testimonials/profile/default-avatar.png';
 const TRIP_PLACEHOLDER = '/testimonials/trips/placeholder-trip.jpg';
@@ -25,7 +26,7 @@ const Testimonials = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const totalSlides = Math.ceil(companyData.testimonials.length / itemsPerPage);
+  const totalSlides = Math.ceil(adminData.testimonials.length / itemsPerPage);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,7 +44,7 @@ const Testimonials = () => {
   };
 
   const startIndex = activeIndex * itemsPerPage;
-  const currentItems = companyData.testimonials.slice(startIndex, startIndex + itemsPerPage);
+  const currentItems = adminData.testimonials.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <section id="testimonials" className="py-20 bg-gray-50/50">

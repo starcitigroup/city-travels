@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FileDown, Clock, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import companyData from '../data/companyData.json';
+import adminData from '../data/adminData.json';
 import { trackEvent, ANALYTICS_EVENTS } from '../utils/analytics';
 
 const ITEMS_PER_PAGE = 3;
@@ -8,9 +9,9 @@ const ITEMS_PER_PAGE = 3;
 const FeaturedPackages = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(companyData.brochures.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(adminData.brochures.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentPackages = companyData.brochures.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const currentPackages = adminData.brochures.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);

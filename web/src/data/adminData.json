@@ -1,0 +1,184 @@
+{
+    "brochures": [
+        {
+            "id": 1,
+            "title": "Houseboat Cruise",
+            "duration": "Overnight/ Day/ Night",
+            "highlights": [
+                "Backwater Cruise",
+                "Houseboat Stay",
+                "Breakfast, Lunch, Dinner",
+                "Scenic Views"
+            ],
+            "image": "/brochures/houseboat_cruise.jpg",
+            "file": "/brochures/houseboat_cruise.jpg"
+        },
+        {
+            "id": 2,
+            "title": "Trivandrum-Kanyakumari",
+            "duration": "1Day",
+            "highlights": [
+                "Poovar Backwaters",
+                "Padmanabhapuram Palace",
+                "Vivekananda Rock",
+                "Kanyakumari Sunset"
+            ],
+            "image": "/brochures/tvm_cape_1D.jpg",
+            "file": "/brochures/tvm_cape_1D.jpg"
+        },
+        {
+            "id": 3,
+            "title": "Trivandrum Temple Tour",
+            "duration": "1Day",
+            "highlights": [
+                "Padmanabha Swami Temple",
+                "Attukal Bhagavathy Temple",
+                "Azhimala shiva Temple",
+                "Chenkal Siva Temple"
+            ],
+            "image": "/brochures/tvm1D_Temple.jpg",
+            "file": "/brochures/tvm1D_Temple.jpg"
+        },
+        {
+            "id": 4,
+            "title": "Trivandrum-Kanyakumari",
+            "duration": "2Days/1Night",
+            "highlights": [
+                "AC Travel & Stay",
+                "Ervadi Darga Sherif",
+                "Attinkarapally",
+                "Kanyakumari",
+                "Padmanabhapuram Palace"
+            ],
+            "image": "/brochures/tvm_2D.jpg",
+            "price": "₹2600",
+            "file": "/brochures/tvm_2D.jpg"
+        },
+        {
+            "id": 5,
+            "title": "Trivandrum City Tour",
+            "duration": "1Day",
+            "highlights": [
+                "Padmanabha Swami Temple",
+                "Kovalam",
+                "Poovar Backwaters",
+                "Azhimala",
+                "Vizhinjam",
+                "Zoo, Museums"
+            ],
+            "image": "/brochures/tvm_city.jpg",
+            "file": "/brochures/tvm_city.jpg"
+        },
+        {
+            "id": 6,
+            "title": "Tanjavur-Madurai",
+            "duration": "3Days/2Night",
+            "highlights": [
+                "AC Travel & Stay",
+                "Temple Visits",
+                "Chettinad Palace",
+                "Cultural Experiences",
+                "Local Cuisine",
+                "Shopping",
+                "Guided Tours",
+                "Madurai Meenakshi Temple"
+            ],
+            "image": "/brochures/chettinad.jpg"
+        },
+        {
+            "id": 7,
+            "title": "Wayanad Corporate Offsite",
+            "duration": "2Days/1Night",
+            "highlights": [
+                "Team Building Activities",
+                "Resort Stay",
+                "Adventure Sports",
+                "Bonfire Evenings",
+                "Cultural Programs"
+            ],
+            "image": "/brochures/wayanad.jpg"
+        },
+        {
+            "id": 8,
+            "title": "Munnar Day Trip",
+            "duration": "1Day",
+            "highlights": [
+                "Tea Gardens",
+                "Eravikulam National Park",
+                "Mattupetty Dam",
+                "Echo Point",
+                "Local Cuisine"
+            ],
+            "image": "/brochures/munnar.jpg"
+        },
+        {
+            "id": 9,
+            "title": "Rameshwaram Tour",
+            "duration": "1Day",
+            "highlights": [
+                "AC Travel & Stay",
+                "Local Cuisine",
+                "Cultural Experiences",
+                "Temple Visits",
+                "Dhanushkodi",
+                "Pamban Bridge",
+                "Ram Setu"
+            ],
+            "image": "/brochures/rameswaram.jpg"
+        }
+    ],
+    "testimonials": [
+        {
+            "id": 1,
+            "name": "Arun Kumar",
+            "role": "HR Manager, TechSolutions",
+            "content": "City Travels organized an amazing corporate offsite for our team in Wayanad. Everything from transport to team-building activities was flawless. Highly recommended for corporate groups!",
+            "location": "Bangalore",
+            "image": "/testimonials/profile/arun.jpg",
+            "tripImage": "/testimonials/trips/arun-trip.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Adarsh",
+            "role": "Group Traveler",
+            "content": "Booked the service for a group trip. I appreciate the seamless coordination and attention to detail. The itinerary was well-planned, and the service exceeded my expectations. I liked the customization options available",
+            "location": "Bangalore",
+            "image": "/testimonials/profile/adarsh.jpg",
+            "tripImage": "/testimonials/trips/adarsh-trip.png"
+        },
+        {
+            "id": 3,
+            "name": "Priya Menon",
+            "role": "Day Tripper",
+            "content": "The quick day trip to Ponmudi was exactly what I needed to recharge. Hassle-free booking and excellent service. Will definitely book another weekend getaway soon.",
+            "location": "Trivandrum",
+            "image": "/testimonials/profile/priya.jpg",
+            "tripImage": "/testimonials/trips/priya-trip.jpg"
+        },
+        {
+            "id": 4,
+            "name": "Rahul & Neha",
+            "role": "Honeymooners",
+            "content": "Our honeymoon in Goa was magical, thanks to City Travels. The candlelight dinner arrangements and the private beach stay were beyond our expectations.",
+            "location": "Chennai",
+            "image": "/testimonials/profile/rahul.jpg",
+            "tripImage": "/testimonials/trips/rahul-trip.jpg"
+        },
+        {
+            "id": 5,
+            "name": "Mark Thomson",
+            "role": "International Traveler",
+            "content": "Traveling from the UK, I was worried about logistics, but City Travels handled everything professionally. The Kerala Backwaters tour is a must-do!",
+            "location": "London, UK"
+        },
+        {
+            "id": 6,
+            "name": "TechCorp Team",
+            "role": "Corporate Offsite",
+            "content": "A seamless experience for our annual team retreat. The luxury bus was comfortable, and the resort selection was top-notch. Great value for money.",
+            "location": "Hyderabad",
+            "image": "/testimonials/profile/techcorp.jpg",
+            "tripImage": "/testimonials/trips/techcorp-trip.jpg"
+        }
+    ]
+}
