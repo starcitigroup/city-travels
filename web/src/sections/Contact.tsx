@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import companyData from '../data/companyData.json';
 import emailjs from '@emailjs/browser';
 import { trackEvent, ANALYTICS_EVENTS } from '../utils/analytics';
@@ -35,8 +36,6 @@ const Contact = () => {
     const templateId = import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    // --- WhatsApp Integration (Free) ---
-    // Format the message for WhatsApp
     const whatsappMessage = `*New Trip Enquiry*
 Name: ${formData.name}
 Phone: ${formData.phone}
@@ -45,16 +44,13 @@ Date: ${formData.date}
 Travelers: ${formData.travelers}
 Note: ${formData.message}`;
 
-    // Create the WhatsApp link
     const whatsappNumber = companyData.contact.whatsapp.replace('+', '');
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
     
-    // Open WhatsApp immediately (Manual workflow)
     window.open(whatsappUrl, '_blank');
 
     if (!serviceId || !templateId || !publicKey) {
       console.warn('EmailJS keys missing. Form will only open WhatsApp.');
-      // Even if email fails/is missing, we marked it as success because WhatsApp opened.
       setStatus('success');
       setFormData({ name: '', phone: '', destination: '', date: '', travelers: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
@@ -62,18 +58,12 @@ Note: ${formData.message}`;
     }
 
     try {
-      await emailjs.send(
-        serviceId,
-        templateId,
-        formData,
-        publicKey
-      );
+      await emailjs.send(serviceId, templateId, formData, publicKey);
       setStatus('success');
       setFormData({ name: '', phone: '', destination: '', date: '', travelers: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
       console.error('EmailJS Error:', error);
-      // We still show success or a partial warning because WhatsApp likely worked.
       setStatus('success'); 
       setTimeout(() => setStatus('idle'), 5000);
     }
@@ -82,117 +72,139 @@ Note: ${formData.message}`;
   const { phones, email, fullAddress } = companyData.contact;
 
   return (
-    <section id="contact" className="relative py-20 overflow-hidden">
-       {/* Simple Light Background */}
-       <div className="absolute inset-0 z-0 bg-gray-50"></div>
-       
-       {/* Decorative Blob */}
-       <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-       <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+    <section id="contact" className="relative py-28 overflow-hidden bg-white">
+      {/* Decorative Blur */}
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -translate-x-1/2 translate-y-1/2"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Start Planning Your Trip</h2>
-          <p className="text-gray-700 max-w-2xl mx-auto font-medium">
-            Fill out the form below and our travel experts will get back to you with a customized itinerary within 24 hours.
-          </p>
+        <div className="text-center mb-20">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-5xl font-bold text-dark mb-6 tracking-tight"
+          >
+            Start Your <span className="text-primary">Journey</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-gray-500 max-w-2xl mx-auto text-lg font-medium leading-relaxed"
+          >
+            Fill out the form below and our travel experts will craft a personalized itinerary for you within 24 hours.
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           
-          <div className="bg-white p-6 sm:p-8 rounded-2xl border border-blue-100 shadow-xl relative z-20">
-            <h3 className="text-2xl font-bold text-dark mb-6">Contact Information</h3>
-            
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-blue-50 rounded-lg shadow-sm text-primary">
-                  <Phone size={24} />
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-5 space-y-10"
+          >
+            <div className="space-y-8">
+              <h3 className="text-3xl font-bold text-dark tracking-tight">Contact Information</h3>
+              
+              <div className="space-y-8">
+                <div className="flex items-start gap-6 group">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+                    <Phone size={24} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-primary uppercase tracking-[0.2em] mb-2">Phone / WhatsApp</p>
+                    {phones.map((phone, index) => (
+                      <a key={index} href={`tel:${phone.replace(/\s+/g, '')}`} className="block text-xl font-bold text-dark hover:text-primary transition-colors">
+                        {phone}
+                      </a>
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold text-dark mb-1">Phone / WhatsApp</p>
-                  {phones.map((phone, index) => (
-                    <a key={index} href={`tel:${phone.replace(/\s+/g, '')}`} className="block text-gray-800 font-bold hover:text-primary transition-colors text-lg">
-                      {phone}
-                    </a>
-                  ))}
-                </div>
-              </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-blue-50 rounded-lg shadow-sm text-primary">
-                  <Mail size={24} />
+                <div className="flex items-start gap-6 group">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+                    <Mail size={24} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-primary uppercase tracking-[0.2em] mb-2">Email Us</p>
+                    <a href={`mailto:${email}`} className="block text-xl font-bold text-dark hover:text-primary transition-colors">{email}</a>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold text-dark mb-1">Email Us</p>
-                  <a href={`mailto:${email}`} className="block text-gray-800 font-bold hover:text-primary transition-colors text-lg">{email}</a>
-                </div>
-              </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-blue-50 rounded-lg shadow-sm text-primary">
-                  <MapPin size={24} />
-                </div>
-                <div>
-                  <p className="font-semibold text-dark mb-1">Office Location</p>
-                  <p className="text-gray-800 leading-relaxed font-medium">
-                    {fullAddress}
-                  </p>
+                <div className="flex items-start gap-6 group">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+                    <MapPin size={24} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-primary uppercase tracking-[0.2em] mb-2">Office Location</p>
+                    <p className="text-lg font-bold text-dark leading-snug">
+                      {fullAddress}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-10 p-6 bg-gradient-to-r from-primary to-blue-700 text-white rounded-xl shadow-lg transform sm:rotate-[-1deg] transition-transform hover:rotate-0">
-              <h4 className="font-bold text-xl mb-2">Why book with us?</h4>
-              <ul className="space-y-2 text-blue-50 font-medium">
-                <li>✓ Verified Hotels & Drivers</li>
-                <li>✓ 24/7 On-Trip Support</li>
-                <li>✓ Best Price Guarantee</li>
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="p-10 bg-gradient-to-br from-primary to-blue-800 text-white rounded-[2.5rem] shadow-2xl shadow-primary/20 relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full translate-x-1/2 -translate-y-1/2"></div>
+              <h4 className="font-bold text-2xl mb-4 relative z-10">Premium Benefits</h4>
+              <ul className="space-y-4 text-blue-100 font-bold relative z-10">
+                <li className="flex items-center gap-3"><span className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-xs">✓</span> Verified Hotels & Drivers</li>
+                <li className="flex items-center gap-3"><span className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-xs">✓</span> 24/7 On-Trip Support</li>
+                <li className="flex items-center gap-3"><span className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-xs">✓</span> Best Price Guarantee</li>
               </ul>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-100 relative z-20">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-7 bg-white p-8 sm:p-12 rounded-[3rem] shadow-2xl shadow-primary/5 border border-gray-100"
+          >
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-1">Full Name</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Full Name</label>
                   <input
                     type="text"
-                    id="name"
                     name="name"
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all font-bold text-dark"
                     placeholder="John Doe"
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-bold text-gray-700 mb-1">Phone Number</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Phone Number</label>
                   <input
                     type="tel"
-                    id="phone"
                     name="phone"
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all font-bold text-dark"
                     placeholder="+91 98765..."
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <label htmlFor="destination" className="block text-sm font-bold text-gray-700 mb-1">Destination</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Destination</label>
                   <select
-                    id="destination"
                     name="destination"
                     value={formData.destination}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-white"
+                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all font-bold text-dark appearance-none"
                   >
-                    <option value="">Select Destination</option>
+                    <option value="">Select Location</option>
                     <option value="Kashmir">Kashmir</option>
                     <option value="Kerala">Kerala</option>
                     <option value="Himachal">Himachal Pradesh</option>
@@ -202,66 +214,71 @@ Note: ${formData.message}`;
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="date" className="block text-sm font-bold text-gray-700 mb-1">Travel Date (Approx)</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Travel Date</label>
                   <input
                     type="date"
-                    id="date"
                     name="date"
                     value={formData.date}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all font-bold text-dark"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="travelers" className="block text-sm font-bold text-gray-700 mb-1">No. of Travelers</label>
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Number of Travelers</label>
                 <input
                   type="number"
-                  id="travelers"
                   name="travelers"
                   min="1"
                   value={formData.travelers}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                  className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all font-bold text-dark"
                   placeholder="2"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-1">Specific Requirements</label>
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Special Requirements</label>
                 <textarea
-                  id="message"
                   name="message"
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  placeholder="I want a 4-star hotel and a private cab..."
+                  className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all font-bold text-dark resize-none"
+                  placeholder="Any specific preferences or requests?"
                 ></textarea>
               </div>
 
-              <button
+              <motion.button
                 type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 disabled={status === 'sending' || status === 'success'}
-                className={`w-full py-4 rounded-lg font-bold text-white text-lg flex items-center justify-center gap-2 transition-all ${
-                  status === 'success' ? 'bg-green-500 shadow-lg' : 'bg-secondary hover:bg-opacity-90 shadow-xl hover:shadow-2xl'
+                className={`w-full py-5 rounded-2xl font-bold text-white text-lg flex items-center justify-center gap-3 transition-all ${
+                  status === 'success' ? 'bg-green-500 shadow-xl shadow-green-200' : 'bg-secondary hover:bg-secondary-dark shadow-2xl shadow-secondary/30'
                 }`}
               >
                 {status === 'sending' ? (
-                  'Sending...'
+                  <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Send size={24} /></motion.div>
                 ) : status === 'success' ? (
-                  'Request Sent Successfully!'
+                  <>
+                    <CheckCircle2 size={24} />
+                    Request Sent!
+                  </>
                 ) : status === 'error' ? (
-                  'Failed. Try Again.'
+                  <>
+                    <AlertCircle size={24} />
+                    Try Again
+                  </>
                 ) : (
                   <>
-                    Send Enquiry <Send size={20} />
+                    Plan My Trip <Send size={20} className="transform group-hover:translate-x-1" />
                   </>
                 )}
-              </button>
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

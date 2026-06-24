@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, MapPin, Calendar, Users, Car, Home, Phone, User, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import companyData from '../data/companyData.json';
 import { trackEvent, ANALYTICS_EVENTS } from '../utils/analytics';
 import emailjs from '@emailjs/browser';
@@ -28,7 +29,6 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
-  // Use Photon API for live suggestions
   useEffect(() => {
     if (formData.destination.length < 3) {
       setSuggestions([]);
@@ -86,7 +86,6 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
       pax: formData.adults + formData.children
     });
 
-    // 1. WhatsApp Redirection
     const whatsappMessage = `*New Trip Customization Request*
 --------------------------------
 *Destination:* ${formData.destination}
@@ -104,10 +103,8 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
     const whatsappNumber = companyData.contact.whatsapp.replace('+', '');
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
     
-    // Open WhatsApp
     window.open(whatsappUrl, '_blank');
 
-    // 2. EmailJS Submission
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const templateId = import.meta.env.VITE_EMAILJS_CUSTOMIZE_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
@@ -123,7 +120,6 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
     }
 
     try {
-      // Map form data to template parameters
       const templateParams = {
         from_name: formData.name,
         from_phone: formData.phone,
@@ -151,298 +147,321 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
-        onClick={onClose}
-      ></div>
-
-      {/* Modal Content */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-fadeIn scale-100 transition-transform">
-        
-        {/* Header */}
-        <div className="sticky top-0 bg-white z-10 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-          <div>
-            <h2 className="text-2xl font-bold text-dark">Customize Your Trip</h2>
-            <p className="text-sm text-gray-500">Tell us what you need, and we'll plan it for you.</p>
-          </div>
-          <button 
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          {/* Backdrop */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-dark/60 backdrop-blur-md" 
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-gray-700"
-          >
-            <X size={24} />
-          </button>
-        </div>
+          ></motion.div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          
-          {/* Section: Trip Details */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
-              <MapPin size={20} /> Trip Details
-            </h3>
+          {/* Modal Content */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="relative bg-white rounded-[3rem] shadow-2xl w-full max-w-2xl overflow-hidden my-auto"
+          >
             
-            <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Destination</label>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="destination"
-                  value={formData.destination}
-                  onChange={handleDestinationChange}
-                  placeholder="Where do you want to go? (e.g., Munnar)"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  required
-                />
-                <MapPin className="absolute left-3 top-3.5 text-gray-400" size={18} />
+            {/* Header */}
+            <div className="bg-white px-8 py-8 border-b border-gray-50 flex justify-between items-center relative z-10">
+              <div>
+                <motion.h2 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="text-3xl font-bold text-dark tracking-tight"
+                >
+                  Customize Your <span className="text-primary">Journey</span>
+                </motion.h2>
+                <p className="text-gray-500 font-medium mt-1">Tell us your vision, and we'll handle the rest.</p>
+              </div>
+              <motion.button 
+                whileHover={{ rotate: 90, backgroundColor: "rgba(0,0,0,0.05)" }}
+                whileTap={{ scale: 0.9 }}
+                onClick={onClose}
+                className="p-3 rounded-2xl transition-colors text-gray-400"
+              >
+                <X size={24} />
+              </motion.button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="p-8 space-y-10 max-h-[70vh] overflow-y-auto custom-scrollbar">
+              
+              {/* Section: Trip Details */}
+              <div className="space-y-6">
+                <h3 className="text-xs font-bold text-primary uppercase tracking-[0.2em] flex items-center gap-3">
+                  <MapPin size={16} /> Trip Essentials
+                </h3>
                 
-                {/* Suggestions Dropdown */}
-                {showSuggestions && (formData.destination.length >= 3) && (
-                  <div className="absolute z-20 w-full bg-white border border-gray-100 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto">
-                    {isLoadingSuggestions ? (
-                      <div className="px-4 py-3 text-sm text-gray-500 flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                        Searching...
-                      </div>
-                    ) : suggestions.length > 0 ? (
-                      suggestions.map((s, i) => (
-                        <div
-                          key={i}
-                          className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b last:border-0 border-gray-50 transition-colors"
-                          onClick={() => selectSuggestion(s)}
+                <div className="relative">
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Destination</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="destination"
+                      value={formData.destination}
+                      onChange={handleDestinationChange}
+                      placeholder="Where to? (e.g., Munnar, Manali)"
+                      className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all font-bold text-dark"
+                      required
+                    />
+                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    
+                    {/* Suggestions Dropdown */}
+                    <AnimatePresence>
+                      {showSuggestions && (formData.destination.length >= 3) && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          className="absolute z-20 w-full bg-white border border-gray-100 rounded-2xl shadow-2xl mt-2 overflow-hidden"
                         >
-                          <div className="flex items-center gap-2">
-                            <MapPin size={14} className="text-secondary"/>
-                            <span className="font-medium text-gray-800">{s.name}</span>
-                          </div>
-                          {(s.city || s.state) && (
-                            <div className="text-xs text-gray-500 ml-5">
-                              {[s.city, s.state].filter(Boolean).join(', ')}
+                          {isLoadingSuggestions ? (
+                            <div className="px-6 py-4 text-sm text-gray-500 flex items-center gap-3">
+                              <div className="w-5 h-5 border-3 border-primary border-t-transparent rounded-full animate-spin"></div>
+                              Searching destinations...
+                            </div>
+                          ) : suggestions.length > 0 ? (
+                            suggestions.map((s, i) => (
+                              <div
+                                key={i}
+                                className="px-6 py-4 hover:bg-primary/5 cursor-pointer border-b last:border-0 border-gray-50 transition-colors group"
+                                onClick={() => selectSuggestion(s)}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <MapPin size={16} className="text-secondary group-hover:scale-110 transition-transform"/>
+                                  <span className="font-bold text-dark">{s.name}</span>
+                                </div>
+                                {(s.city || s.state) && (
+                                  <div className="text-xs text-gray-400 ml-7 font-medium">
+                                    {[s.city, s.state].filter(Boolean).join(', ')}
+                                  </div>
+                                )}
+                              </div>
+                            ))
+                          ) : (
+                            <div className="px-6 py-4 text-sm text-gray-500 font-medium">
+                              No matches found. Feel free to type yours.
                             </div>
                           )}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="px-4 py-3 text-sm text-gray-500">
-                        No locations found. You can still type yours.
-                      </div>
-                    )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Start Date</label>
+                    <div className="relative">
+                      <input
+                        type="date"
+                        name="startDate"
+                        value={formData.startDate}
+                        onChange={handleInputChange}
+                        className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark"
+                        required
+                      />
+                      <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">End Date</label>
+                    <div className="relative">
+                      <input
+                        type="date"
+                        name="endDate"
+                        value={formData.endDate}
+                        onChange={handleInputChange}
+                        className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark"
+                        required
+                      />
+                      <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Section: Preferences */}
+              <div className="space-y-6">
+                <h3 className="text-xs font-bold text-primary uppercase tracking-[0.2em] flex items-center gap-3">
+                  <Home size={16} /> Preferences
+                </h3>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Stay Type</label>
+                    <div className="relative">
+                      <select
+                        name="stayType"
+                        value={formData.stayType}
+                        onChange={handleInputChange}
+                        className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark appearance-none"
+                      >
+                        <option>Budget Hotel</option>
+                        <option>Standard Hotel (3 Star)</option>
+                        <option>Luxury Hotel (4/5 Star)</option>
+                        <option>Resort</option>
+                        <option>Homestay</option>
+                        <option>Houseboat</option>
+                        <option>No Stay Needed</option>
+                      </select>
+                      <Home className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Vehicle Type</label>
+                    <div className="relative">
+                      <select
+                        name="vehicleType"
+                        value={formData.vehicleType}
+                        onChange={handleInputChange}
+                        className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark appearance-none"
+                      >
+                        <option>Sedan (4 Seater)</option>
+                        <option>SUV (Innova/Crysta)</option>
+                        <option>Tempo Traveller (12+)</option>
+                        <option>Mini Bus</option>
+                        <option>Luxury Coach</option>
+                        <option>No Vehicle Needed</option>
+                      </select>
+                      <Car className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Adults</label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        name="adults"
+                        min="1"
+                        value={formData.adults}
+                        onChange={handleInputChange}
+                        className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark"
+                      />
+                      <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Children</label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        name="children"
+                        min="0"
+                        value={formData.children}
+                        onChange={handleInputChange}
+                        className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark"
+                      />
+                      <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Section: Contact */}
+              <div className="space-y-6">
+                <h3 className="text-xs font-bold text-primary uppercase tracking-[0.2em] flex items-center gap-3">
+                  <User size={16} /> Your Details
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Full Name</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="John Doe"
+                        className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark"
+                        required
+                      />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Phone Number</label>
+                    <div className="relative">
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="+91 98765..."
+                        className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark"
+                        required
+                      />
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                   <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Notes</label>
+                   <textarea
+                     name="notes"
+                     value={formData.notes}
+                     onChange={handleInputChange}
+                     rows={3}
+                     placeholder="Special requests, celebration themes, etc."
+                     className="w-full p-6 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark resize-none"
+                   />
+                </div>
+              </div>
+
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                disabled={status === 'sending' || status === 'success'}
+                className={`w-full text-white font-bold py-5 rounded-2xl shadow-2xl transition-all flex items-center justify-center gap-3 ${
+                  status === 'success' 
+                    ? 'bg-green-500' 
+                    : status === 'error'
+                    ? 'bg-red-500'
+                    : 'bg-secondary hover:bg-secondary-dark shadow-secondary/30'
+                }`}
+              >
+                {status === 'sending' ? (
+                  <>
+                    <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Processing...
+                  </>
+                ) : status === 'success' ? (
+                  <>
+                    <CheckCircle2 size={24} />
+                    Sent Successfully!
+                  </>
+                ) : status === 'error' ? (
+                  <>
+                    <AlertCircle size={24} />
+                    Failed to send.
+                  </>
+                ) : (
+                  <>
+                    Send My Request <Send size={20} />
+                  </>
                 )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                <div className="relative">
-                  <input
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
-                    onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    required
-                  />
-                  <Calendar className="absolute left-3 top-3.5 text-gray-400" size={18} />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                <div className="relative">
-                  <input
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
-                    onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    required
-                  />
-                  <Calendar className="absolute left-3 top-3.5 text-gray-400" size={18} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <hr className="border-gray-100" />
-
-          {/* Section: Preferences */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
-              <Home size={20} /> Preferences
-            </h3>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Stay Type</label>
-                <div className="relative">
-                  <select
-                    name="stayType"
-                    value={formData.stayType}
-                    onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none appearance-none bg-white"
-                  >
-                    <option>Budget Hotel</option>
-                    <option>Standard Hotel (3 Star)</option>
-                    <option>Luxury Hotel (4/5 Star)</option>
-                    <option>Resort</option>
-                    <option>Homestay</option>
-                    <option>Houseboat</option>
-                    <option>No Stay Needed</option>
-                  </select>
-                  <Home className="absolute left-3 top-3.5 text-gray-400" size={18} />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Vehicle Type</label>
-                <div className="relative">
-                  <select
-                    name="vehicleType"
-                    value={formData.vehicleType}
-                    onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none appearance-none bg-white"
-                  >
-                    <option>Sedan (4 Seater)</option>
-                    <option>SUV (Innova/Crysta)</option>
-                    <option>Tempo Traveller (12+)</option>
-                    <option>Mini Bus</option>
-                    <option>Luxury Coach</option>
-                    <option>No Vehicle Needed</option>
-                  </select>
-                  <Car className="absolute left-3 top-3.5 text-gray-400" size={18} />
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Adults</label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    name="adults"
-                    min="1"
-                    value={formData.adults}
-                    onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  />
-                  <Users className="absolute left-3 top-3.5 text-gray-400" size={18} />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Children</label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    name="children"
-                    min="0"
-                    value={formData.children}
-                    onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  />
-                  <Users className="absolute left-3 top-3.5 text-gray-400" size={18} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <hr className="border-gray-100" />
-
-          {/* Section: Contact */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
-              <User size={20} /> Your Details
-            </h3>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="John Doe"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    required
-                  />
-                  <User className="absolute left-3 top-3.5 text-gray-400" size={18} />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                <div className="relative">
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="+91 98765 43210"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    required
-                  />
-                  <Phone className="absolute left-3 top-3.5 text-gray-400" size={18} />
-                </div>
-              </div>
-            </div>
-            
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Special Requests / Notes</label>
-               <textarea
-                 name="notes"
-                 value={formData.notes}
-                 onChange={handleInputChange}
-                 rows={2}
-                 placeholder="Any specific requirements?"
-                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none resize-none"
-               />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={status === 'sending' || status === 'success'}
-            className={`w-full text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1 ${
-              status === 'success' 
-                ? 'bg-green-500 hover:bg-green-600' 
-                : status === 'error'
-                ? 'bg-red-500'
-                : 'bg-[#25D366] hover:bg-[#20bd5a]'
-            }`}
-          >
-            {status === 'sending' ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Sending...
-              </>
-            ) : status === 'success' ? (
-              <>
-                <CheckCircle2 size={20} />
-                Request Sent Successfully!
-              </>
-            ) : status === 'error' ? (
-              <>
-                <AlertCircle size={20} />
-                Failed to send. Try again.
-              </>
-            ) : (
-              <>
-                <Send size={20} />
-                Send Inquiry
-              </>
-            )}
-          </button>
-          
-        </form>
-      </div>
-    </div>
+              </motion.button>
+              
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 };
 

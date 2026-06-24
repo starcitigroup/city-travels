@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FileDown, Clock, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import companyData from '../data/companyData.json';
 import { supabase } from '../lib/supabase';
 import { trackEvent, ANALYTICS_EVENTS } from '../utils/analytics';
@@ -50,7 +51,7 @@ const FeaturedPackages = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    const section = document.getElementById('brochures');
+    const section = document.getElementById('packages');
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
@@ -58,9 +59,14 @@ const FeaturedPackages = () => {
 
   if (loading) {
     return (
-      <section id="packages" className="py-20 bg-gray-50">
+      <section id="packages" className="py-24 bg-gray-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-600">Loading amazing packages...</p>
+          <motion.div 
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            className="inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full mb-4"
+          />
+          <p className="text-gray-500 font-medium">Curating your next adventure...</p>
         </div>
       </section>
     );
@@ -68,133 +74,165 @@ const FeaturedPackages = () => {
 
   if (error) {
     return (
-      <section id="packages" className="py-20 bg-gray-50">
+      <section id="packages" className="py-24 bg-gray-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-red-500">{error}</p>
+          <div className="inline-flex p-4 rounded-full bg-red-50 text-red-500 mb-4">
+            <Clock size={32} />
+          </div>
+          <p className="text-red-500 font-bold text-xl mb-2">Oops!</p>
+          <p className="text-gray-500 font-medium">{error}</p>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="packages" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Popular Itineraries</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            Explore our most requested pre-planned packages. Download the brochure for the full itinerary.
-          </p>
+    <section id="packages" className="py-24 bg-gray-50/50 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-[120px]"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-20">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-5xl font-bold text-dark mb-6 tracking-tight"
+          >
+            Popular <span className="text-secondary">Itineraries</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-gray-500 max-w-2xl mx-auto text-lg font-medium leading-relaxed"
+          >
+            Explore our most requested pre-planned packages. Download the brochure for the full itinerary details.
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {currentPackages.map((item) => (
-            <div key={item.id} className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-gray-100">
-              
-              {/* Card Image */}
-              <div className="relative h-56 overflow-hidden">
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors z-10"></div>
-                <img 
-                  src={item.image} 
-                  alt={item.title}
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-3 right-3 z-20 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-dark shadow-sm flex items-center gap-1">
-                  <Clock size={14} className="text-secondary" />
-                  {item.duration}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">{item.title}</h3>
-                
-                {/* Highlights as Tags */}
-                <div className="mb-6 flex-grow">
-                  <div className="flex flex-wrap gap-2">
-                    {item.highlights.slice(0, 4).map((highlight, idx) => (
-                      <span key={idx} className="inline-flex items-center text-xs font-medium text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200">
-                        {highlight}
-                      </span>
-                    ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
+          <AnimatePresence mode="wait">
+            {currentPackages.map((item, idx) => (
+              <motion.div 
+                key={item.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                whileHover={{ y: -10 }}
+                className="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col overflow-hidden border border-gray-100"
+              >
+                {/* Card Image */}
+                <div className="relative h-64 overflow-hidden">
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
+                  
+                  <div className="absolute top-5 right-5 z-20 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-2xl text-xs font-bold text-dark shadow-lg flex items-center gap-2">
+                    <Clock size={14} className="text-secondary" />
+                    {item.duration}
                   </div>
-                </div>
-
-                {/* Price & Actions */}
-                <div className="pt-4 border-t border-gray-100 mt-auto">
+                  
                   {item.price && (
-                    <div className="mb-4">
-                      <p className="text-sm text-gray-500">Starting from</p>
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-2xl font-bold text-primary">{item.price}</span>
-                        <span className="text-sm text-gray-400">/person</span>
-                      </div>
+                    <div className="absolute bottom-5 left-5 z-20 text-white">
+                      <p className="text-[10px] font-bold uppercase tracking-widest opacity-80">Starting From</p>
+                      <p className="text-2xl font-bold">{item.price}</p>
                     </div>
                   )}
+                </div>
+
+                {/* Content */}
+                <div className="p-8 flex flex-col flex-grow">
+                  <h3 className="text-2xl font-bold text-dark mb-5 group-hover:text-primary transition-colors tracking-tight">{item.title}</h3>
                   
-                  <div className="grid grid-cols-2 gap-3">
-                    <a 
+                  {/* Highlights as Tags */}
+                  <div className="mb-8 flex-grow">
+                    <div className="flex flex-wrap gap-2">
+                      {item.highlights.slice(0, 4).map((highlight, idx) => (
+                        <span key={idx} className="inline-flex items-center text-xs font-semibold text-gray-500 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="pt-6 border-t border-gray-50 mt-auto flex flex-col gap-3">
+                    <motion.a 
+                      whileTap={{ scale: 0.98 }}
                       href={`https://wa.me/${companyData.contact.whatsapp.replace('+', '')}?text=Hi, I am interested in the ${item.title} package. Please provide more details.`}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => trackEvent(ANALYTICS_EVENTS.WHATSAPP_CLICK, { package_title: item.title, location: 'package_card' })}
-                      className="flex items-center justify-center gap-2 bg-secondary text-white py-2.5 rounded-lg font-semibold hover:bg-opacity-90 transition-all text-sm shadow-sm"
+                      className="flex items-center justify-center gap-2 bg-secondary text-white py-4 rounded-2xl font-bold hover:bg-secondary-dark transition-all text-sm shadow-lg shadow-secondary/20"
                     >
                       <MessageCircle size={18} />
-                      Book Now
-                    </a>
+                      Book Package
+                    </motion.a>
+                    
                     {item.file ? (
-                      <a 
+                      <motion.a 
+                        whileTap={{ scale: 0.98 }}
                         href={item.file}
                         download
                         onClick={() => trackEvent(ANALYTICS_EVENTS.BROCHURE_DOWNLOAD, { package_title: item.title })}
-                        className="flex items-center justify-center gap-2 bg-white text-dark border border-gray-300 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition-all text-sm"
+                        className="flex items-center justify-center gap-2 bg-white text-dark border border-gray-200 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all text-sm"
                       >
                         <FileDown size={18} />
-                        Brochure
-                      </a>
+                        Download Brochure
+                      </motion.a>
                     ) : (
-                      <button disabled className="flex items-center justify-center gap-2 bg-gray-100 text-gray-400 border border-gray-200 py-2.5 rounded-lg font-semibold text-sm cursor-not-allowed">
+                      <button disabled className="flex items-center justify-center gap-2 bg-gray-50 text-gray-300 border border-gray-100 py-4 rounded-2xl font-bold text-sm cursor-not-allowed">
                         <FileDown size={18} />
-                        Brochure
+                        Brochure Unavailable
                       </button>
                     )}
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-4">
-            <button
+          <div className="flex justify-center items-center gap-6">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`p-2 rounded-full border ${
+              className={`p-4 rounded-2xl border-2 transition-all ${
                 currentPage === 1 
-                  ? 'border-gray-200 text-gray-300 cursor-not-allowed' 
-                  : 'border-gray-300 text-gray-600 hover:bg-white hover:shadow-md hover:text-primary'
-              } transition-all`}
+                  ? 'border-gray-100 text-gray-200 cursor-not-allowed' 
+                  : 'border-white bg-white text-dark shadow-md hover:text-primary hover:border-primary'
+              }`}
             >
               <ChevronLeft size={24} />
-            </button>
+            </motion.button>
 
-            <span className="text-sm font-medium text-gray-500">
-              Page {currentPage} of {totalPages}
+            <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+              Page <span className="text-dark">{currentPage}</span> of {totalPages}
             </span>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`p-2 rounded-full border ${
+              className={`p-4 rounded-2xl border-2 transition-all ${
                 currentPage === totalPages 
-                  ? 'border-gray-200 text-gray-300 cursor-not-allowed' 
-                  : 'border-gray-300 text-gray-600 hover:bg-white hover:shadow-md hover:text-primary'
-              } transition-all`}
+                  ? 'border-gray-100 text-gray-200 cursor-not-allowed' 
+                  : 'border-white bg-white text-dark shadow-md hover:text-primary hover:border-primary'
+              }`}
             >
               <ChevronRight size={24} />
-            </button>
+            </motion.button>
           </div>
         )}
       </div>
