@@ -23,7 +23,7 @@ const Footer = () => {
               className="mb-8"
             >
               <h2 className="text-3xl font-bold mb-6 flex items-center gap-2 tracking-tight">
-                <span className="text-secondary">Star</span> Citi
+                <span className="text-secondary">Star</span>Citi
               </h2>
               <p className="text-gray-400 mb-8 leading-relaxed text-lg font-medium opacity-80 max-w-md">
                 {companyData.company.description}
