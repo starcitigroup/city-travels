@@ -10,6 +10,20 @@ interface CustomizeTripModalProps {
   onClose: () => void;
 }
 
+interface PhotonFeatureProperties {
+  name?: string;
+  city?: string;
+  state?: string;
+}
+
+interface PhotonFeature {
+  properties: PhotonFeatureProperties;
+}
+
+interface PhotonResponse {
+  features: PhotonFeature[];
+}
+
 const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     destination: '',
@@ -39,8 +53,8 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
       setIsLoadingSuggestions(true);
       try {
         const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(formData.destination)}&limit=5`);
-        const data = await response.json();
-        const results = data.features.map((f: any) => ({
+        const data = (await response.json()) as PhotonResponse;
+        const results = data.features.map((f) => ({
           name: f.properties.name,
           city: f.properties.city,
           state: f.properties.state

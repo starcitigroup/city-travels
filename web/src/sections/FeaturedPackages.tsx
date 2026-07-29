@@ -34,8 +34,9 @@ const FeaturedPackages = () => {
 
         if (error) throw error;
         setBrochures(data || []);
-      } catch (err: any) {
-        console.error('Error fetching brochures:', err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        console.error('Error fetching brochures:', message);
         setError('Failed to load packages. Please try again later.');
       } finally {
         setLoading(false);

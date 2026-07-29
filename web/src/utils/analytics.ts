@@ -2,9 +2,17 @@
  * Google Analytics Event Tracking Utility
  */
 
-export const trackEvent = (eventName: string, params?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', eventName, params);
+type AnalyticsParams = Record<string, string | number | boolean | null | undefined>;
+
+declare global {
+  interface Window {
+    gtag?: (command: string, eventName: string, params?: AnalyticsParams) => void;
+  }
+}
+
+export const trackEvent = (eventName: string, params?: AnalyticsParams) => {
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    window.gtag('event', eventName, params);
   }
 };
 

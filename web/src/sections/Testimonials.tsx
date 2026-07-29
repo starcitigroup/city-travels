@@ -34,8 +34,9 @@ const Testimonials = () => {
 
         if (error) throw error;
         setTestimonials(data || []);
-      } catch (err: any) {
-        console.error('Error fetching testimonials:', err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        console.error('Error fetching testimonials:', message);
         setError('Failed to load testimonials.');
       } finally {
         setLoading(false);
