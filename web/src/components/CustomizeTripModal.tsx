@@ -55,7 +55,7 @@ const CustomizeTripModal: React.FC<CustomizeTripModalProps> = ({ isOpen, onClose
         const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(formData.destination)}&limit=5`);
         const data = (await response.json()) as PhotonResponse;
         const results = data.features.map((f) => ({
-          name: f.properties.name,
+          name: f.properties.name ?? 'Unknown destination',
           city: f.properties.city,
           state: f.properties.state
         }));
