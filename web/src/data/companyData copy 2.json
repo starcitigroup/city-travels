@@ -1,6 +1,6 @@
 {
   "company": {
-    "name": "City Travels",
+    "name": "StarCiti",
     "tagline": "Custom Domestic Tours",
     "description": "Customized travel packages designed for families, couples, and groups. Let us craft your perfect getaway with 24/7 support and unbeatable prices.",
     "foundedYear": 2015
@@ -21,7 +21,7 @@
       "zip": "110001",
       "country": "India"
     },
-    "fullAddress": "City Travels HQ, 123, Travel Lane, Near Main Market, New Delhi, India 110001"
+    "fullAddress": "StarCiti HQ, 123, Travel Lane, Near Main Market, New Delhi, India 110001"
   },
   "social": {
     "facebook": "https://facebook.com/citytravels",
