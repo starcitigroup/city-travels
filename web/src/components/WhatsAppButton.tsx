@@ -18,7 +18,7 @@ const WhatsAppButton = () => {
       animate={{ opacity: 1, scale: 1 }}
       whileHover={{ scale: 1.1, rotate: 5 }}
       whileTap={{ scale: 0.9 }}
-      href={`https://wa.me/${whatsappNumber}?text=Hi, I'm interested in booking a trip with City Travels.`}
+      href={`https://wa.me/${whatsappNumber}?text=Hi, I'm interested in booking a trip with StarCiti.`}
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}

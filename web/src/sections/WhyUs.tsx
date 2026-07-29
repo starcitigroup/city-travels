@@ -65,7 +65,7 @@ const WhyUs = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-bold mb-6 text-white tracking-tight"
           >
-            Why Choose <span className="text-secondary">City Travels?</span>
+            Why Choose <span className="text-secondary">StarCiti</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}

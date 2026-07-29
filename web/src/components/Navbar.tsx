@@ -46,7 +46,7 @@ const Navbar = () => {
               <img
                 className="w-full h-auto object-contain transform scale-[0.8] origin-center"
                 src={logo}
-                alt="City Travels"
+                alt="StarCiti"
               />
             </Link>
           </motion.div>
